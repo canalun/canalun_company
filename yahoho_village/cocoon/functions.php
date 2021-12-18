@@ -391,7 +391,7 @@ function notes_replace($content) {
     $notes = array();
     $post_id = $post->ID;
     $post_permalink=get_permalink($post_id);
-    $note_pattern = '/\(\((.+?)\)\)/';
+    $note_pattern = '/\(\(.*\)\)/';
     $id_attr_format = 'post-%d-note%d';
     $link_format = '<a href=%s#%s>*%d</a>';
     $text_format = '<p id="%s">*%d:%s</p>';
