@@ -29,7 +29,15 @@
     <div class="stackedit__html">
       <h1 id="welcome-to-canalun-company">Welcome to Canalun Company!</h1>
 <h2 id="our-ceo">Our CEO</h2>
-<p><img id='imageArea' alt="CEO changes everyday"></p>
+<p>
+  <script>
+    const images = ['./images/CEOs/boy.jpeg', './images/CEOs/dragon.png'];
+    const imageNo = Math.floor( Math.random() * images.length);
+    imageSrc = images[imageNo];
+    document.write('<img src="'+imageSrc+'" />');
+
+  </script>
+</p>
 <h2 id="our-values">Our Values</h2>
 <ul>
 <li>Go to bed when feeling sleepy</li>
@@ -42,8 +50,21 @@
 </ul>
 <h2 id="super-nice-guest-rooms">SUPER NICE guest rooms</h2>
 <ul>
-<li><strong>hotel</strong>: for those who like riddles… <strong>[temporary closing]</strong></li>
+<li><strong>hotel</strong>: for those who like riddles… <strong><font color="red">[temporary closing...]</strong></font></li>
 </ul>
+
+<p><em><strong>,</strong></em><br>
+  　　　　　　　,…’:´:´:＼ 　　 /.:｀丶、<br>
+  　　　　　.__/ : : : : : : .ヽ 　i: : : : . ::ヽ_<br>
+  　　　 /´::::!: : : ., ‐‘´￣　l　 ｀l￣｀ ｰ、､｀ヽ　　　please enjoy!<br>
+  　　 / :::::::::!: : : l:::::●:::ﾉ　　 …＼::●::i: |::::::i<br>
+  　 ./::::::::::::::i: : : l::::::.／　　.＿＿｀､:.:|: !:::::::i<br>
+  　/.::::::::::::::::l: : : !:／ 　 　（::::::::::::）　i .:|:::::::|<br>
+  　| :::::::::::::::::|: :.:. l.　　　　　￣￣　　ｌ:.:!:::::::|<br>
+  　 ヽ::::::::::::::|: : . :|　 　 　　　　l　　　l :l::::::::!<br>
+  　　,人:::::::::|: : :　l　　　　　 ,.‘´`､　　l./:::::/<br>
+  　/:::::::｀’ｰ…’’､ :　l　　　　/　　　 i　 /ﾞ’’’‐’<br>
+  /:::::::::::::　　　　｀ヽ､____…ﾉ ￣￣ .し′ヽ、</p>
 
     </div>
   </div>
