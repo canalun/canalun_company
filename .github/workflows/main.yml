@@ -21,3 +21,8 @@ jobs:
         protocol: ftps
         local-dir: ./contents/
         server-dir: company_home/
+
+    - name: run test
+      env:
+        FTP_SERVER: ${{secrets.FTP_SERVER}}
+      uses: ./.github/actions/hello
