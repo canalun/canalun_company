@@ -19,4 +19,4 @@ jobs:
         username: ${{ secrets.ftp_username }}
         password: ${{ secrets.ftp_password }}
         local-dir: ./contents/
-        remote-dir: company_home/
+        server-dir: company_home/
