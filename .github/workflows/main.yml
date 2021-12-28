@@ -19,15 +19,5 @@ jobs:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./contents/
-        server-dir: ./company_home/
-
-    # - name: 📂 Sync files
-    #   uses: SamKirkland/FTP-Deploy-Action@2.0.0
-    #   env:
-    #     FTP_SERVER: ${{ secrets.FTP_SERVER }}
-    #     FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
-    #     FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-    #     LOCAL_DIR: ./contents
-    #     REMOTE_DIR: ./company_home
-    #     ARGS: --delete
+        local-dir: ${{ secrets.FTP_LOCAL_DIR }}
+        server-dir: .${{ secrets.FTP_SERVER_DIR }}
