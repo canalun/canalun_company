@@ -20,7 +20,9 @@ jobs:
             HATENA_BLOG_ID: ${{ secrets.BLOG_ID }}
             HATENA_USER_NAME: ${{ secrets.HATENA_USER_NAME }}
             HATENA_PASSWORD: ${{ secrets.HATENA_PASSSWORD }}
-          run: go run ./scripts/update_list/main.go
+          run: |
+            cd ./scripts/update_list && go mod download
+            go run ./scripts/update_list/main.go
 
         - name: commit and push src
           run: |
