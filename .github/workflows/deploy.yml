@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+    paths:
+      - 'company_home/**'
 
 jobs:
   lint:
