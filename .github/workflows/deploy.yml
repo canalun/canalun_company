@@ -6,6 +6,7 @@ on:
       - master
     paths:
       - 'company_home/**'
+      - '.github/workflows/deploy.yml'
 
 jobs:
   lint:
