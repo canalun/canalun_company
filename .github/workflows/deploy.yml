@@ -15,7 +15,7 @@ jobs:
     - name: 👾 Lint code
       run: |
         npm install
-        npm lint:html
+        npm run lint:html
 
   web-deploy:
     runs-on: ubuntu-latest
