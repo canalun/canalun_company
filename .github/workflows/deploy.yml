@@ -12,8 +12,13 @@ jobs:
     - name: 🚚 Get latest code
       uses: actions/checkout@v2
 
+    - name: 👾 Lint code
+      run: |
+        npm install
+        npm lint:html
 
     - name: 📂 Sync files
+      needs: 👾 Lint code
       uses: SamKirkland/FTP-Deploy-Action@4.2.0
       with:
         server: ${{ secrets.FTP_SERVER }}
