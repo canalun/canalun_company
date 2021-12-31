@@ -21,6 +21,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: lint
     steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v2
+
       - name: 🚀 Deploy code
         uses: SamKirkland/FTP-Deploy-Action@4.2.0
         with:
