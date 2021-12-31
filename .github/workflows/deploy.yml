@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  web-deploy:
+  lint:
     runs-on: ubuntu-latest
     steps:
     - name: 🚚 Get latest code
@@ -17,12 +17,15 @@ jobs:
         npm install
         npm lint:html
 
-    - name: 📂 Sync files
-      needs: 👾 Lint code
-      uses: SamKirkland/FTP-Deploy-Action@4.2.0
-      with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ${{ secrets.FTP_LOCAL_DIR }}
-        server-dir: .${{ secrets.FTP_SERVER_DIR }}
+  web-deploy:
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - name: 🚀 Deploy code
+        uses: SamKirkland/FTP-Deploy-Action@4.2.0
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ${{ secrets.FTP_LOCAL_DIR }}
+          server-dir: .${{ secrets.FTP_SERVER_DIR }}
