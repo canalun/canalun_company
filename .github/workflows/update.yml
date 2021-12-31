@@ -2,7 +2,7 @@ name: 🔃 Update article lists
 
 on:
   schedule:
-    - cron:  '0 1,13 * * *'
+    - cron:  '25 1,13 * * *'
 
 jobs:
   update-list:
@@ -11,8 +11,21 @@ jobs:
         - name: set up
           uses: actions/setup-go@v2
 
-        - name: pull src
+        - name: checkout
           uses: actions/checkout@v2
 
         - name: run script
+          env:
+            HATENA_ID: ${{ secrets.HATENA_ID }}
+            HATENA_BLOG_ID: ${{ secrets.BLOG_ID }}
+            HATENA_USER_NAME: ${{ secrets.HATENA_USER_NAME }}
+            HATENA_PASSWORD: ${{ secrets.HATENA_PASSSWORD }}
           run: go run ./scripts/update_list/main.go
+
+        - name: commit and push src
+          run: |
+            git config --local user.email "auto-deploy"
+            git config --local user.name "auto-deploy"
+            git add --all
+            git commit -m "update JSON"
+            git push origin master
