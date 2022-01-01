@@ -23,7 +23,7 @@ jobs:
         - name: run script
           env:
             HATENA_ID: ${{ secrets.HATENA_ID }}
-            HATENA_BLOG_ID: ${{ secrets.BLOG_ID }}
+            HATENA_BLOG_ID: ${{ secrets.HATENA_BLOG_ID }}
             HATENA_USER_NAME: ${{ secrets.HATENA_USER_NAME }}
             HATENA_PASSWORD: ${{ secrets.HATENA_PASSSWORD }}
           run: |
