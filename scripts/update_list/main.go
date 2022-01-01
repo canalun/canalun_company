@@ -19,37 +19,62 @@ type Env struct {
 }
 
 type HatenaResponse struct {
-	Feed struct {
+	XMLName xml.Name `xml:"feed"`
+	Text    string   `xml:",chardata"`
+	Xmlns   string   `xml:"xmlns,attr"`
+	App     string   `xml:"app,attr"`
+	Link    []struct {
+		Text string `xml:",chardata"`
+		Rel  string `xml:"rel,attr"`
+		Href string `xml:"href,attr"`
+	} `xml:"link"`
+	Title   string `xml:"title"`
+	Updated string `xml:"updated"`
+	Author  struct {
+		Text string `xml:",chardata"`
+		Name string `xml:"name"`
+	} `xml:"author"`
+	Generator struct {
+		Text    string `xml:",chardata"`
+		URI     string `xml:"uri,attr"`
+		Version string `xml:"version,attr"`
+	} `xml:"generator"`
+	ID    string `xml:"id"`
+	Entry []struct {
+		Text string `xml:",chardata"`
+		ID   string `xml:"id"`
 		Link []struct {
+			Text string `xml:",chardata"`
+			Rel  string `xml:"rel,attr"`
 			Href string `xml:"href,attr"`
+			Type string `xml:"type,attr"`
 		} `xml:"link"`
-		Title    string    `xml:"title"`
-		Subtitle string    `xml:"subtitle"`
-		Updated  time.Time `xml:"updated"`
-		Author   struct {
+		Author struct {
+			Text string `xml:",chardata"`
 			Name string `xml:"name"`
 		} `xml:"author"`
-		Generator string `xml:"generator"`
-		ID        string `xml:"id"`
-		Entry     []struct {
-			ID     string   `xml:"id"`
-			Link   []string `xml:"link"`
-			Author struct {
-				Name string `xml:"name"`
-			} `xml:"author"`
-			Title            string    `xml:"title"`
-			Updated          time.Time `xml:"updated"`
-			Published        time.Time `xml:"published"`
-			Edited           time.Time `xml:"edited"`
-			Summary          string    `xml:"summary"`
-			Content          string    `xml:"content"`
-			FormattedContent string    `xml:"formatted-content,omitempty"`
-			Category         []string  `xml:"category,omitempty"`
-			Control          struct {
-				Draft string `xml:"draft"`
-			} `xml:"control"`
-		} `xml:"entry"`
-	} `xml:"feed"`
+		Title     string `xml:"title"`
+		Updated   string `xml:"updated"`
+		Published string `xml:"published"`
+		Edited    string `xml:"edited"`
+		Summary   struct {
+			Text string `xml:",chardata"`
+			Type string `xml:"type,attr"`
+		} `xml:"summary"`
+		Content struct {
+			Text string `xml:",chardata"`
+			Type string `xml:"type,attr"`
+		} `xml:"content"`
+		FormattedContent struct {
+			Text   string `xml:",chardata"`
+			Type   string `xml:"type,attr"`
+			Hatena string `xml:"hatena,attr"`
+		} `xml:"formatted-content"`
+		Control struct {
+			Text  string `xml:",chardata"`
+			Draft string `xml:"draft"`
+		} `xml:"control"`
+	} `xml:"entry"`
 }
 
 func main() {
