@@ -14,10 +14,10 @@ jobs:
   update-list:
       runs-on: ubuntu-latest
       steps:
-        - name: set up
+        - name: set up golang
           uses: actions/setup-go@v2
 
-        - name: checkout
+        - name: checkout src
           uses: actions/checkout@v2
 
         - name: run script
@@ -33,7 +33,6 @@ jobs:
 
         - name: commit and push src
           run: |
-            ls
             git config --local user.email "auto-deploy"
             git config --local user.name "auto-deploy"
             git add --all
