@@ -1,4 +1,4 @@
-module example.com
+module content-updater
 
 go 1.17
 
