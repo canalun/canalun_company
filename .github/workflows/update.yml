@@ -33,6 +33,7 @@ jobs:
 
         - name: commit and push src
           run: |
+            ls
             git config --local user.email "auto-deploy"
             git config --local user.name "auto-deploy"
             git add --all
