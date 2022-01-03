@@ -1,4 +1,4 @@
-package externalAPI
+package env_setter
 
 import "github.com/kelseyhightower/envconfig"
 

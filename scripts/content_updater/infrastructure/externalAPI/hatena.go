@@ -8,11 +8,18 @@ import (
 	"net/url"
 
 	"content-updater/domain/model"
+	"content-updater/infrastructure/env_setter"
 )
 
 const (
 	relWithEntryLink = "alternate"
 )
+
+var hatenaEnv = env_setter.HatenaEnv{}
+
+func InitHatenaEnv() {
+	hatenaEnv = env_setter.GetHatenaEnvFromGithub()
+}
 
 type HatenaRepository struct {
 	ID       string
@@ -21,12 +28,12 @@ type HatenaRepository struct {
 	Password string
 }
 
-func NewHatenaRepository(ID string, blogID string, userName string, password string) HatenaRepository {
+func NewHatenaRepository() HatenaRepository {
 	return HatenaRepository{
-		ID:       ID,
-		BlogID:   blogID,
-		UserName: userName,
-		Password: password,
+		ID:       hatenaEnv.Id,
+		BlogID:   hatenaEnv.Blog_id,
+		UserName: hatenaEnv.User_name,
+		Password: hatenaEnv.Password,
 	}
 }
 
@@ -89,12 +96,14 @@ type link struct {
 	Type string `xml:"type,attr"`
 }
 
-func (a HatenaRepository) GetArticles() ([]model.Article, error) {
+func (a HatenaRepository) GetEntryList() (*model.EntryList, error) {
 	erd, err := a.getEntryRelatedData()
 	if err != nil {
 		return nil, err
 	}
-	var articles []model.Article
+	entryList := model.EntryList{
+		Source: model.HatenaSource,
+	}
 	for _, entry := range erd.Entries {
 		var linkToEntry string
 		for _, link := range entry.Links {
@@ -106,12 +115,12 @@ func (a HatenaRepository) GetArticles() ([]model.Article, error) {
 		if err != nil {
 			fmt.Printf("%#v; %#v\n", entry.Title, err)
 		}
-		articles = append(articles, model.Article{
+		entryList.Entries = append(entryList.Entries, model.Entry{
 			Title: entry.Title,
 			URL:   url,
 		})
 	}
-	return articles, nil
+	return &entryList, nil
 }
 
 func (a HatenaRepository) getEntryRelatedData() (*hatenaEntryRelatedData, error) {

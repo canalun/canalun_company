@@ -2,10 +2,10 @@ package repository
 
 import "content-updater/domain/model"
 
-type ArticleRepository interface {
-	GetArticles() []model.Article
+type EntryRepository interface {
+	GetEntryList() (*model.EntryList, error)
 }
 
 type ContentUpdater interface {
-	UpdateContent()
+	UpdateEntryListFile(model.EntryList) error
 }
