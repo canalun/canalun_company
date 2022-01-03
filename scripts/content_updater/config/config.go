@@ -15,6 +15,6 @@ type Config struct {
 var Conf Config
 
 func InitConfig() {
-	b, _ := os.ReadFile("tmp.yaml")
+	b, _ := os.ReadFile("../config.yml")
 	yaml.Unmarshal(b, &Conf)
 }
