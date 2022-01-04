@@ -11,8 +11,24 @@ on:
       - '.github/workflows/update.yml'
 
 jobs:
+  test:
+      runs-on: ubuntu-latest
+      steps:
+        - name: set up golang
+          uses: actions/setup-go@v2
+          with:
+            go-version: ^1.17
+
+        - name: checkout src
+          uses: actions/checkout@v2
+
+        - name: test src
+          run : go test -v ./...
+          working-directory: ./scripts/content_updater
+
   update-list:
       runs-on: ubuntu-latest
+      needs: test
       steps:
         - name: set up golang
           uses: actions/setup-go@v2
