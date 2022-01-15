@@ -6,5 +6,16 @@
   "scripts": {
     "lint:html": "htmlhint-ng2 contents/**/*.html contents/*.html",
     "watch": "npm-watch"
+  },
+  "cspell": {
+    "version": "0.2",
+    "ignorePaths": [],
+    "dictionaryDefinitions": [],
+    "dictionaries": [],
+    "words": [
+      "hatena"
+    ],
+    "ignoreWords": [],
+    "import": []
   }
 }

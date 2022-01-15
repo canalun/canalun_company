@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"net/url"
 
 	"content-updater/domain/model"
 	"content-updater/infrastructure/env_setter"
@@ -111,13 +110,13 @@ func (a HatenaRepository) GetEntryList() (*model.EntryList, error) {
 				linkToEntry = link.Href
 			}
 		}
-		url, err := url.Parse(linkToEntry)
 		if err != nil {
 			fmt.Printf("%#v; %#v\n", entry.Title, err)
 		}
 		entryList.Entries = append(entryList.Entries, model.Entry{
 			Title: entry.Title,
-			URL:   url,
+			URL:   linkToEntry,
+			//TODO:  LastUpdatedAtをとるようにする
 		})
 	}
 	return &entryList, nil
@@ -127,7 +126,7 @@ func (a HatenaRepository) getEntryRelatedData() (*hatenaEntryRelatedData, error)
 	url := "https://blog.hatena.ne.jp/" + a.ID + "/" + a.BlogID + "/atom/entry"
 
 	client := &http.Client{
-		Timeout: 30000000000,
+		Timeout: 30000000000, //nano sec
 	}
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {

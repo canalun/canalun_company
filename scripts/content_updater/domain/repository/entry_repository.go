@@ -7,5 +7,5 @@ type EntryRepository interface {
 }
 
 type ContentUpdater interface {
-	UpdateEntryListFile(model.EntryList) error
+	UpdateEntryList(model.EntryList) error
 }

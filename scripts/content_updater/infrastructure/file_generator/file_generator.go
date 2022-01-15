@@ -4,10 +4,12 @@ import (
 	"content-updater/config"
 	"content-updater/domain/model"
 	"encoding/json"
+	"errors"
+	"fmt"
 	"os"
 )
 
-func UpdateEntryListFile(el model.EntryList) error {
+func UpdateEntryList(el model.EntryList) error {
 	el.SortEntries()
 
 	var data []model.Entry
@@ -19,8 +21,12 @@ func UpdateEntryListFile(el model.EntryList) error {
 		return err
 	}
 
-	fileName := config.Conf.EntryListFilePath + el.Source + config.Conf.EntryListFileFormat
-	file, err := os.Create(fileName)
+	filePath := config.Conf.EntryListFilePath + el.Source + config.Conf.EntryListFileFormat
+
+	var _backupData []byte
+	_backupData, _ = os.ReadFile(filePath)
+
+	file, err := os.Create(filePath)
 	if err != nil {
 		return err
 	}
@@ -28,8 +34,10 @@ func UpdateEntryListFile(el model.EntryList) error {
 
 	_, err = file.Write(_data)
 	if err != nil {
-		//TODO: ここで前のファイルを復活させたい
-		return err
+		if _, err = file.Write(_backupData); err != nil {
+			errstr := fmt.Sprintf("can't write new and even original data to the file... %v", err)
+			return errors.New(errstr)
+		}
 	}
 
 	return nil

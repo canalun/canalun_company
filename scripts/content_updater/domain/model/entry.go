@@ -1,7 +1,6 @@
 package model
 
 import (
-	"net/url"
 	"sort"
 	"time"
 )
@@ -17,11 +16,16 @@ type EntryList struct {
 }
 
 type Entry struct {
-	Title       string
-	URL         *url.URL
-	PublishedAt time.Time
+	Title         string     `json:"title"`
+	URL           string     `json:"url"`
+	LastUpdatedAt *time.Time `json:"lastUpdatedAt"`
 }
 
 func (a EntryList) SortEntries() {
-	sort.Slice(a.Entries, func(i, j int) bool { return a.Entries[i].PublishedAt.After(a.Entries[j].PublishedAt) })
+	for _, item := range a.Entries {
+		if item.LastUpdatedAt == nil {
+			return
+		}
+	}
+	sort.Slice(a.Entries, func(i, j int) bool { return a.Entries[i].LastUpdatedAt.After(*a.Entries[j].LastUpdatedAt) })
 }

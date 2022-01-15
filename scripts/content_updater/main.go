@@ -14,5 +14,5 @@ func init() {
 func main() {
 	hatenaRepository := externalAPI.NewHatenaRepository()
 	entryUsecase := usecase.NewEntryUsecase(hatenaRepository)
-	entryUsecase.UpdateEntryList()
+	entryUsecase.UpdateList()
 }

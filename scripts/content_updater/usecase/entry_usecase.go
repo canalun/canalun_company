@@ -17,13 +17,13 @@ func NewEntryUsecase(
 	}
 }
 
-func (a EntryUsecase) UpdateEntryList() error {
+func (a EntryUsecase) UpdateList() error {
 	for _, entryRepository := range a.EntryRepositories {
 		entryList, err := entryRepository.GetEntryList()
 		if err != nil {
 			return err
 		}
-		file_generator.UpdateEntryListFile(*entryList)
+		file_generator.UpdateEntryList(*entryList)
 	}
 	return nil
 }
