@@ -44,7 +44,9 @@ jobs:
 
   update-list:
     runs-on: ubuntu-latest
-    needs: test
+    needs:
+      - lint
+      - test
     steps:
       - name: set up golang
         uses: actions/setup-go@v2

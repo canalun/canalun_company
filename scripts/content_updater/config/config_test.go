@@ -8,11 +8,13 @@ import (
 
 func TestInitConfig(t *testing.T) {
 	tests := []struct {
-		name string
-		want Config
+		name           string
+		configFilePath string
+		want           Config
 	}{
 		{
-			name: "正しくconfigよみこむ",
+			name:           "正しくconfigよみこむ",
+			configFilePath: "../config.yml",
 			want: Config{
 				NumOfEntry:          5,
 				EntryListFilePath:   "../../company_home/entry_list/",
@@ -22,7 +24,7 @@ func TestInitConfig(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			InitConfig()
+			InitConfig(tt.configFilePath)
 		})
 		if diff := cmp.Diff(Conf, tt.want); diff != "" {
 			t.Errorf(diff)

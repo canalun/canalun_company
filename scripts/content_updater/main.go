@@ -6,8 +6,12 @@ import (
 	"content-updater/usecase"
 )
 
+const (
+	configFilePath = "./config.yml"
+)
+
 func init() {
-	config.InitConfig()
+	config.InitConfig(configFilePath)
 	externalAPI.InitHatenaEnv()
 }
 
