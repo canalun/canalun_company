@@ -11,6 +11,21 @@ on:
       - '.github/workflows/update.yml'
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: set up golang
+        uses: actions/setup-go@v2
+        with:
+          go-version: ^1.17
+
+      - name: checkout src
+        uses: actions/checkout@v2
+
+      - name: build src
+        run : go build
+        working-directory: ./scripts/content_updater
+
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -45,6 +60,7 @@ jobs:
   update-list:
     runs-on: ubuntu-latest
     needs:
+      - build
       - lint
       - test
     steps:
@@ -64,7 +80,7 @@ jobs:
           HATENA_PASSWORD: ${{ secrets.HATENA_PASSSWORD }}
         run: |
           go mod download
-          go run main.go
+          go run *.go
         working-directory: ./scripts/content_updater
 
       - name: commit and push src

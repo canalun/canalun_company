@@ -9,7 +9,7 @@ type HatenaEnv struct {
 	Password  string
 }
 
-func GetHatenaEnvFromGithub() HatenaEnv {
+func GetHatenaEnvFromOSEnv() HatenaEnv {
 	var hatenaEnv HatenaEnv
 	envconfig.Process("HATENA", &hatenaEnv)
 	return hatenaEnv

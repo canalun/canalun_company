@@ -17,13 +17,13 @@ const (
 var hatenaEnv = env_setter.HatenaEnv{}
 
 func InitHatenaEnv() {
-	hatenaEnv = env_setter.GetHatenaEnvFromGithub()
+	hatenaEnv = env_setter.GetHatenaEnvFromOSEnv()
 }
 
 type HatenaRepository struct {
 	ID       string
 	BlogID   string
-	UserName string
+	UserID   string
 	Password string
 }
 
@@ -31,7 +31,7 @@ func NewHatenaRepository() HatenaRepository {
 	return HatenaRepository{
 		ID:       hatenaEnv.Id,
 		BlogID:   hatenaEnv.Blog_id,
-		UserName: hatenaEnv.User_name,
+		UserID:   hatenaEnv.User_name,
 		Password: hatenaEnv.Password,
 	}
 }
@@ -65,15 +65,12 @@ type hatenaEntry struct {
 		Text string `xml:",chardata"`
 		Name string `xml:"name"`
 	} `xml:"author"`
-	Title     string `xml:"title"`
-	Updated   string `xml:"updated"`
-	Published string `xml:"published"`
-	Edited    string `xml:"edited"`
-	Summary   struct {
-		Text string `xml:",chardata"`
-		Type string `xml:"type,attr"`
-	} `xml:"summary"`
-	Content struct {
+	Title     string  `xml:"title"`
+	Updated   string  `xml:"updated"`
+	Published string  `xml:"published"`
+	Edited    string  `xml:"edited"`
+	Summary   summary `xml:"summary"`
+	Content   struct {
 		Text string `xml:",chardata"`
 		Type string `xml:"type,attr"`
 	} `xml:"content"`
@@ -94,36 +91,23 @@ type link struct {
 	Href string `xml:"href,attr"`
 	Type string `xml:"type,attr"`
 }
+type summary struct {
+	Text string `xml:",chardata"`
+	Type string `xml:"type,attr"`
+}
 
-func (a HatenaRepository) GetEntryList() (*model.EntryList, error) {
-	erd, err := a.getEntryRelatedData()
+func (a HatenaRepository) GetLatestEntryList() (*model.EntryList, error) {
+	erd, err := a.getLatestEntryRelatedData()
 	if err != nil {
 		return nil, err
 	}
-	entryList := model.EntryList{
-		Source: model.HatenaSource,
-	}
-	for _, entry := range erd.Entries {
-		var linkToEntry string
-		for _, link := range entry.Links {
-			if link.Rel == relWithEntryLink {
-				linkToEntry = link.Href
-			}
-		}
-		if err != nil {
-			fmt.Printf("%#v; %#v\n", entry.Title, err)
-		}
-		entryList.Entries = append(entryList.Entries, model.Entry{
-			Title: entry.Title,
-			URL:   linkToEntry,
-			//TODO:  LastUpdatedAtをとるようにする
-		})
-	}
+	entryList := a.createEntryListFromEntryRelatedData(*erd)
 	return &entryList, nil
 }
 
-func (a HatenaRepository) getEntryRelatedData() (*hatenaEntryRelatedData, error) {
+func (a HatenaRepository) getLatestEntryRelatedData() (*hatenaEntryRelatedData, error) {
 	url := "https://blog.hatena.ne.jp/" + a.ID + "/" + a.BlogID + "/atom/entry"
+	fmt.Println(url)
 
 	client := &http.Client{
 		Timeout: 30000000000, //nano sec
@@ -132,7 +116,7 @@ func (a HatenaRepository) getEntryRelatedData() (*hatenaEntryRelatedData, error)
 	if err != nil {
 		return nil, err
 	}
-	req.SetBasicAuth(a.UserName, a.Password)
+	req.SetBasicAuth(a.UserID, a.Password)
 
 	resp, err := client.Do(req)
 	if err != nil {
@@ -144,8 +128,32 @@ func (a HatenaRepository) getEntryRelatedData() (*hatenaEntryRelatedData, error)
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println(string(re))
 
 	var hatenaEntryRelatedData hatenaEntryRelatedData
 	xml.Unmarshal(re, &hatenaEntryRelatedData)
 	return &hatenaEntryRelatedData, nil
+}
+
+func (a HatenaRepository) createEntryListFromEntryRelatedData(erd hatenaEntryRelatedData) model.EntryList {
+	entryList := model.EntryList{
+		Source: model.HatenaSource,
+	}
+	for _, entry := range erd.Entries {
+		var linkToEntry string
+		for _, link := range entry.Links {
+			if link.Rel == relWithEntryLink {
+				linkToEntry = link.Href
+			}
+		}
+		if linkToEntry == "" {
+			fmt.Printf("can't get link for `%#v`\n", entry.Title)
+		}
+		entryList.Entries = append(entryList.Entries, model.Entry{
+			Title: entry.Title,
+			URL:   linkToEntry,
+			//TODO:  LastUpdatedAtをとるようにする
+		})
+	}
+	return entryList
 }

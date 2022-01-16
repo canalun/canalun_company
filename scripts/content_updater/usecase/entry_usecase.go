@@ -19,7 +19,7 @@ func NewEntryUsecase(
 
 func (a EntryUsecase) UpdateList() error {
 	for _, entryRepository := range a.EntryRepositories {
-		entryList, err := entryRepository.GetEntryList()
+		entryList, err := entryRepository.GetLatestEntryList()
 		if err != nil {
 			return err
 		}
