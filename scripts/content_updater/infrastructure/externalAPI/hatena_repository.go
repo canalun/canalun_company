@@ -101,7 +101,9 @@ func (a HatenaRepository) GetLatestEntryList() (*model.EntryList, error) {
 	if err != nil {
 		return nil, err
 	}
+	fmt.Printf("%#v\n", erd)
 	entryList := a.createEntryListFromEntryRelatedData(*erd)
+	fmt.Printf("%#v\n", entryList)
 	return &entryList, nil
 }
 
