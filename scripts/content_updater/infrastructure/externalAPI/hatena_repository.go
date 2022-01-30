@@ -101,8 +101,10 @@ func (a HatenaRepository) GetLatestEntryList() (*model.EntryList, error) {
 	if err != nil {
 		return nil, err
 	}
+	fmt.Printf("%#v\n", "****************************************************")
 	fmt.Printf("%#v\n", erd)
 	entryList := a.createEntryListFromEntryRelatedData(*erd)
+	fmt.Printf("%#v\n", "****************************************************")
 	fmt.Printf("%#v\n", entryList)
 	return &entryList, nil
 }
@@ -132,7 +134,10 @@ func (a HatenaRepository) getLatestEntryRelatedData() (*hatenaEntryRelatedData, 
 	}
 
 	var hatenaEntryRelatedData hatenaEntryRelatedData
+	fmt.Printf("%#v\n", re)
 	xml.Unmarshal(re, &hatenaEntryRelatedData)
+	fmt.Printf("%#v\n", "****************************************************")
+	fmt.Printf("%#v\n", hatenaEntryRelatedData)
 	return &hatenaEntryRelatedData, nil
 }
 
