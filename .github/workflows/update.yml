@@ -76,7 +76,7 @@ jobs:
         env:
           HATENA_ID: ${{ secrets.HATENA_ID }}
           HATENA_BLOG_ID: ${{ secrets.HATENA_BLOG_ID }}
-          HATENA_USER_NAME: ${{ secrets.HATENA_USER_NAME }}
+          HATENA_USER_ID: ${{ secrets.HATENA_USER_ID }}
           HATENA_PASSWORD: ${{ secrets.HATENA_PASSSWORD }}
         run: |
           go mod download
