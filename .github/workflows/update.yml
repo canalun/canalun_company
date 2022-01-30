@@ -87,6 +87,8 @@ jobs:
         run: |
           git config --local user.email "auto-deploy"
           git config --local user.name "auto-deploy"
-          git add --all
-          git commit -m "update contents"
-          git push origin master
+          if (git diff --shortstat | grep '[0-9]'); then \
+            git add --all
+            git commit -m "update contents"
+            git push origin master
+          fi
