@@ -1,12 +1,14 @@
 package env_setter
 
-import "github.com/kelseyhightower/envconfig"
+import (
+	"github.com/kelseyhightower/envconfig"
+)
 
 type HatenaEnv struct {
-	Id        string
-	Blog_id   string
-	User_name string
-	Password  string
+	Id       string
+	Blog_id  string
+	User_id  string
+	Password string
 }
 
 func GetHatenaEnvFromOSEnv() HatenaEnv {

@@ -31,7 +31,7 @@ func NewHatenaRepository() HatenaRepository {
 	return HatenaRepository{
 		ID:       hatenaEnv.Id,
 		BlogID:   hatenaEnv.Blog_id,
-		UserID:   hatenaEnv.User_name,
+		UserID:   hatenaEnv.User_id,
 		Password: hatenaEnv.Password,
 	}
 }
@@ -128,7 +128,6 @@ func (a HatenaRepository) getLatestEntryRelatedData() (*hatenaEntryRelatedData, 
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println(string(re))
 
 	var hatenaEntryRelatedData hatenaEntryRelatedData
 	xml.Unmarshal(re, &hatenaEntryRelatedData)

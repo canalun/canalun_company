@@ -4,6 +4,7 @@ import (
 	"content-updater/config"
 	"content-updater/infrastructure/externalAPI"
 	"content-updater/usecase"
+	"fmt"
 )
 
 const (
@@ -18,5 +19,7 @@ func init() {
 func main() {
 	hatenaRepository := externalAPI.NewHatenaRepository()
 	entryUsecase := usecase.NewEntryUsecase(hatenaRepository)
-	entryUsecase.UpdateList()
+	if err := entryUsecase.UpdateList(); err != nil {
+		fmt.Printf("%+v\n", err)
+	}
 }

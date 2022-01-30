@@ -4,9 +4,10 @@ import (
 	"content-updater/config"
 	"content-updater/domain/model"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"os"
+
+	"github.com/pkg/errors"
 )
 
 func UpdateEntryList(el model.EntryList) error {
@@ -18,17 +19,18 @@ func UpdateEntryList(el model.EntryList) error {
 	}
 	_data, err := json.Marshal(data)
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 
 	filePath := config.Conf.EntryListFilePath + el.Source + config.Conf.EntryListFileFormat
+	fmt.Printf("%#v\n", filePath)
 
 	var _backupData []byte
 	_backupData, _ = os.ReadFile(filePath)
 
 	file, err := os.Create(filePath)
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 	defer file.Close()
 
@@ -36,7 +38,7 @@ func UpdateEntryList(el model.EntryList) error {
 	if err != nil {
 		if _, err = file.Write(_backupData); err != nil {
 			errstr := fmt.Sprintf("can't write new and even original data to the file... %v", err)
-			return errors.New(errstr)
+			return errors.WithStack(errors.New(errstr))
 		}
 	}
 

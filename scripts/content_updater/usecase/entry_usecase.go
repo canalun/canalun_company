@@ -3,6 +3,8 @@ package usecase
 import (
 	"content-updater/domain/repository"
 	"content-updater/infrastructure/file_generator"
+
+	"github.com/pkg/errors"
 )
 
 type EntryUsecase struct {
@@ -21,9 +23,11 @@ func (a EntryUsecase) UpdateList() error {
 	for _, entryRepository := range a.EntryRepositories {
 		entryList, err := entryRepository.GetLatestEntryList()
 		if err != nil {
-			return err
+			return errors.WithStack(err)
 		}
-		file_generator.UpdateEntryList(*entryList)
+		if err := file_generator.UpdateEntryList(*entryList); err != nil {
+			return errors.WithStack(err)
+		}
 	}
 	return nil
 }
