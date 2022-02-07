@@ -1,11 +1,19 @@
 {
   "devDependencies": {
+    "@types/react": "^17.0.39",
+    "@types/react-dom": "^17.0.11",
     "htmlhint-ng2": "^0.0.13",
-    "npm-watch": "^0.11.0"
+    "npm-watch": "^0.11.0",
+    "ts-loader": "^9.2.6",
+    "typescript": "^4.5.5",
+    "webpack": "^5.68.0",
+    "webpack-cli": "^4.9.2"
   },
   "scripts": {
     "lint:html": "htmlhint-ng2 contents/**/*.html contents/*.html",
-    "watch": "npm-watch"
+    "watch": "npm-watch",
+    "build": "webpack --mode=production",
+    "start": "webpack -w --mode=development"
   },
   "cspell": {
     "version": "0.2",
@@ -17,5 +25,9 @@
     ],
     "ignoreWords": [],
     "import": []
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   }
 }
