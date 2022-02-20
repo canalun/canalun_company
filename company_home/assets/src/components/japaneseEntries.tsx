@@ -13,15 +13,19 @@ const ErrorFallback: React.FC<FallbackProps> = ({ error, resetErrorBoundary }) =
 }
 
 export const JapaneseEntryList = () => {
-  console.log('sssss');
-
   const [hatenaListOn, setHatenaListState] = useState(true)
+  // const [zennListOn, setZennListState] = useState(true)
 
-  const listItems = hatenaEntryList.map((entry) =>
+  const hatenaListItem = hatenaEntryList.map((entry) =>
     <li key={entry.lastUpdatedAt}>
       <a href={entry.url}>{entry.title}</a>
     </li>
   )
+  // const zennListItem = zennEntryList.map((entry) =>
+  //   <li key={entry.lastUpdatedAt}>
+  //     <a href={entry.url}>{entry.title}</a>
+  //   </li>
+  // )
 
   return (
 
@@ -38,7 +42,7 @@ export const JapaneseEntryList = () => {
       >
         {hatenaListOn &&
           <div>
-            <ul>{listItems}</ul>
+            <ul>{hatenaListItem}</ul>
           </div>}
       </ErrorBoundary>
       <br />
@@ -51,10 +55,11 @@ export const JapaneseEntryList = () => {
           setHatenaListState(false)
         }}
       >
-        {hatenaListOn &&
+        工事中……
+        {/* {zennListOn &&
           <div>
-            <ul>{listItems}</ul>
-          </div>}
+            <ul>{zennListItem}</ul>
+          </div>} */}
       </ErrorBoundary>
     </ul>
 
