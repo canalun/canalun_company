@@ -5,20 +5,20 @@ on:
     branches:
       - master
     paths:
-      - 'company_home/**'
-      - '.github/workflows/deploy.yml'
+      - "company_home/**"
+      - ".github/workflows/deploy.yml"
 
 jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-    - name: 🚚 Get latest code
-      uses: actions/checkout@v2
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v2
 
-    - name: 👾 Lint code
-      run: |
-        npm install
-        npm run lint:html
+      - name: 👾 Lint code
+        run: |
+          npm install
+          npm run lint:html
 
   web-deploy:
     runs-on: ubuntu-latest
@@ -28,7 +28,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: 🚀 Deploy code
-        uses: SamKirkland/FTP-Deploy-Action@4.2.0
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.0-beta
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
