@@ -25,4 +25,5 @@ module.exports = {
       "@contents": path.resolve(__dirname, "./company_home/contents"),
     },
   },
+  devtool: 'cheap-module-source-map',
 };

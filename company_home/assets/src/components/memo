@@ -1,0 +1,65 @@
+すべて一旦コメントアウトを解除すれば、実験していたtsxコードに戻る。
+ErrorFallBackがfunctionだとなぜ動かなくて、VFCだとなぜ動くのか知りたい
+
+// import hatenaEntryList from "@contents/entry_list/Hatena.json"
+// import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
+// import React, { useState } from "react";
+
+// const ErrorFallback: React.FC<FallbackProps> = ({ error, resetErrorBoundary }) => {
+//   return (
+//     <div role="alert">
+//       <p>Something went wrong</p>
+//       <pre>{error.message}</pre>
+//       <button onClick={resetErrorBoundary}>Try again</button>
+//     </div>
+//   )
+// }
+
+// //動かなかった→ファンクションだから引数を受け取れていなかったのでは？上はreact FCだからpropsとして引数を自動で受け取れるのでは？
+// //ファンクションでも返り値はコンポーネントだからエラーでなかったのでは？
+// // function ErrorFallback({ error }: { error: any }, { resetErrorBoundary }: { resetErrorBoundary: any }) {
+// //   return (
+// //     <div role="alert">
+// //       <p>Something went wrong</p>
+// //       <pre>{error.message}</pre>
+// //       <button onClick={resetErrorBoundary}>Try again</button>
+// //     </div>
+// //   )
+// // }
+
+// export const Bomb = () => {
+//   throw new Error('bomb!!!!!!!')
+// }
+
+// export const HatenaEntryList = () => {
+//   const [listOn, setListState] = useState(true)
+//   const [bombOn, setBombState] = useState(false)
+//   console.log("liston", listOn)
+
+//   const listItems = hatenaEntryList.map((entry) =>
+//     <li key={entry.title}>
+//       <a href={entry.url}>{entry.title}</a>
+//     </li>
+//   )
+
+
+//   return (
+//     <>
+//       {/* <button onClick={() => setBombState(e => !e)}>toggle explode</button> */}
+//       <ErrorBoundary
+//         FallbackComponent={ErrorFallback}
+//         onReset={() => {
+//           console.log('pushed')
+//           setListState(false)
+//           setBombState(false)
+//         }}
+//       >
+//         {listOn &&
+//           <div>
+//             <ul>{listItems}</ul>
+//             {bombOn && <Bomb></Bomb>}
+//           </div>}
+//       </ErrorBoundary>
+//     </>
+//   )
+// }

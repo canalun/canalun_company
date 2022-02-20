@@ -2,4 +2,15 @@ declare module "*.jpg";
 declare module "*.png";
 declare module "*.jpeg";
 declare module "*.gif";
-declare module "*.json";
+
+declare module '@contents/entry_list/*.json' {
+    interface Entry {
+        title: string
+        url: string
+        lastUpdatedAt: string
+    }
+
+    const data: Entry[];
+
+    export default data;
+}
