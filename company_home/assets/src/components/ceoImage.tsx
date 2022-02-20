@@ -15,12 +15,15 @@ const CeoImage = () => {
   const height = 395
 
   return (
-    <img
-      src={images[imageNo]}
-      alt="CEO is at home today"
-      width={width}
-      height={height}
-    />
+    <>
+      <img
+        src={images[imageNo]}
+        alt="CEO is at home today"
+        width={width}
+        height={height}
+      />
+      <p>wanna see more? please reload...</p>
+    </>
   )
 }
 
