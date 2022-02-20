@@ -101,12 +101,7 @@ func (a HatenaRepository) GetLatestEntryList() (*model.EntryList, error) {
 	if err != nil {
 		return nil, err
 	}
-	// fmt.Printf("%#v\n", "****************************************************")
-	// fmt.Printf("%#v\n", "****************************************************")
-	// fmt.Printf("%#v\n", erd)
 	entryList := a.createEntryListFromEntryRelatedData(*erd)
-	fmt.Printf("%#v\n", "****************************************************")
-	fmt.Printf("%#v\n", entryList)
 	return &entryList, nil
 }
 
@@ -135,10 +130,7 @@ func (a HatenaRepository) getLatestEntryRelatedData() (*hatenaEntryRelatedData, 
 	}
 
 	var hatenaEntryRelatedData hatenaEntryRelatedData
-	//fmt.Printf("%#v\n", re)
 	xml.Unmarshal(re, &hatenaEntryRelatedData)
-	fmt.Printf("%#v\n", "****************************************************")
-	//fmt.Printf("%#v\n", hatenaEntryRelatedData)
 	return &hatenaEntryRelatedData, nil
 }
 
@@ -147,6 +139,9 @@ func (a HatenaRepository) createEntryListFromEntryRelatedData(erd hatenaEntryRel
 		Source: model.HatenaSource,
 	}
 	for _, entry := range erd.Entries {
+		if entry.Published == "false" {
+			continue
+		}
 		var linkToEntry string
 		for _, link := range entry.Links {
 			if link.Rel == relWithEntryLink {
