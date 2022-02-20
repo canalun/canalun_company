@@ -79,10 +79,7 @@ type hatenaEntry struct {
 		Type   string `xml:"type,attr"`
 		Hatena string `xml:"hatena,attr"`
 	} `xml:"formatted-content"`
-	Control struct {
-		Text  string `xml:",chardata"`
-		Draft string `xml:"draft"`
-	} `xml:"control"`
+	Control control `xml:"control"`
 }
 
 type link struct {
@@ -96,6 +93,11 @@ type summary struct {
 	Type string `xml:"type,attr"`
 }
 
+type control struct {
+	Text  string `xml:",chardata"`
+	Draft string `xml:"draft"`
+}
+
 func (a HatenaRepository) GetLatestEntryList() (*model.EntryList, error) {
 	erd, err := a.getLatestEntryRelatedData()
 	if err != nil {
@@ -107,7 +109,6 @@ func (a HatenaRepository) GetLatestEntryList() (*model.EntryList, error) {
 
 func (a HatenaRepository) getLatestEntryRelatedData() (*hatenaEntryRelatedData, error) {
 	url := "https://blog.hatena.ne.jp/" + a.ID + "/" + a.BlogID + "/atom/entry"
-	fmt.Println(url)
 
 	client := &http.Client{
 		Timeout: 30000000000, //nano sec
@@ -139,7 +140,7 @@ func (a HatenaRepository) createEntryListFromEntryRelatedData(erd hatenaEntryRel
 		Source: model.HatenaSource,
 	}
 	for _, entry := range erd.Entries {
-		if entry.Published == "false" {
+		if entry.Control.Draft != "no" {
 			continue
 		}
 		var linkToEntry string

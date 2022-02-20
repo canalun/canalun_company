@@ -64,6 +64,9 @@ func TestHatenaRepository_getLatestEntryRelatedData(t *testing.T) {
 							Type: "text",
 							Text: "summary-1",
 						},
+						Control: control{
+							Draft: "no",
+						},
 					},
 					{
 						Title: "title-2",
@@ -82,6 +85,9 @@ func TestHatenaRepository_getLatestEntryRelatedData(t *testing.T) {
 							Type: "text",
 							Text: "summary-2",
 						},
+						Control: control{
+							Draft: "no",
+						},
 					},
 					{
 						Title: "title-3",
@@ -99,6 +105,30 @@ func TestHatenaRepository_getLatestEntryRelatedData(t *testing.T) {
 						Summary: summary{
 							Type: "text",
 							Text: "summary-3",
+						},
+						Control: control{
+							Draft: "yes",
+						},
+					},
+					{
+						Title: "title-4",
+						Links: []link{
+							{
+								Rel:  "edit",
+								Href: "edit-link-4",
+							},
+							{
+								Rel:  "alternate",
+								Type: "text/html",
+								Href: "alternate-link-4",
+							},
+						},
+						Summary: summary{
+							Type: "text",
+							Text: "summary-4",
+						},
+						Control: control{
+							Draft: "no",
 						},
 					},
 				},
@@ -122,6 +152,7 @@ func TestHatenaRepository_getLatestEntryRelatedData(t *testing.T) {
 			opt := cmp.Options{
 				cmpopts.IgnoreFields(hatenaEntryRelatedData{}, "XMLName", "Text", "Xmlns", "App", "Links", "Title", "Generator", "ID"),
 				cmpopts.IgnoreFields(hatenaEntry{}, "Text", "ID", "Author"),
+				cmpopts.IgnoreFields(control{}, "Text"),
 			}
 			diff := cmp.Diff(got, tt.want, opt)
 			fmt.Println(got)
@@ -142,7 +173,7 @@ func TestHatenaRepository_createEntryListFromEntryRelatedData(t *testing.T) {
 		want model.EntryList
 	}{
 		{
-			name: "正常系",
+			name: "正常系: 下書き中はスキップ",
 			args: args{
 				erd: hatenaEntryRelatedData{
 					Entries: []hatenaEntry{
@@ -163,6 +194,9 @@ func TestHatenaRepository_createEntryListFromEntryRelatedData(t *testing.T) {
 								Type: "text",
 								Text: "summary-1",
 							},
+							Control: control{
+								Draft: "no",
+							},
 						},
 						{
 							Title: "title-2",
@@ -180,6 +214,9 @@ func TestHatenaRepository_createEntryListFromEntryRelatedData(t *testing.T) {
 							Summary: summary{
 								Type: "text",
 								Text: "summary-2",
+							},
+							Control: control{
+								Draft: "yes",
 							},
 						},
 						{
@@ -199,6 +236,9 @@ func TestHatenaRepository_createEntryListFromEntryRelatedData(t *testing.T) {
 								Type: "text",
 								Text: "summary-3",
 							},
+							Control: control{
+								Draft: "no",
+							},
 						},
 					},
 				},
@@ -209,10 +249,6 @@ func TestHatenaRepository_createEntryListFromEntryRelatedData(t *testing.T) {
 					{
 						Title: "title-1",
 						URL:   "alternate-link-1",
-					},
-					{
-						Title: "title-2",
-						URL:   "alternate-link-2",
 					},
 					{
 						Title: "title-3",
