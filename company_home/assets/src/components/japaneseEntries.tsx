@@ -55,7 +55,7 @@ export const JapaneseEntryList = () => {
           setHatenaListState(false)
         }}
       >
-        工事中……
+        <ul>工事中……</ul>
         {/* {zennListOn &&
           <div>
             <ul>{zennListItem}</ul>
