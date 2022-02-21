@@ -1,6 +1,6 @@
 # canalun_company
 src of my homepage
 
-features:
-- choose img randomly and rendor it
-- show latest articles from external blog services(my blogs, of course)
+## 🎉features:
+- random choice of img to be rendored on the top page
+- get latest articles from external blog services(my blogs in Hatena and Zenn)
