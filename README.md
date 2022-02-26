@@ -1,5 +1,6 @@
 # canalun_company
 src of my homepage
+https://canalun.company/
 
 ## 👾architecture:
 - FE: TypeScript+React with ESlint, Jest
