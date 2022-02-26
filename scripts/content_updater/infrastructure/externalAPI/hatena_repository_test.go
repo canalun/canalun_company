@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"testing"
+	"time"
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -17,9 +18,16 @@ func TestMain(m *testing.M) {
 
 	httpmock.RegisterResponder(
 		"GET",
-		"https://blog.hatena.ne.jp/test/test/atom/entry",
-		httpmock.NewStringResponder(200, httpmock.File("./testdata/entry_related_data_test.xml").String()),
+		hatenaBaseUrlPrefix+"test/test"+hatenaBaseUrlSuffix,
+		httpmock.NewStringResponder(200, httpmock.File("./testdata/hatena_entry_related_data_test.xml").String()),
 	)
+	httpmock.RegisterResponder(
+		"GET",
+		zennBaseUrlPrefix+"test"+zennBaseUrlSuffix,
+		httpmock.NewStringResponder(200, httpmock.File("./testdata/zenn_entry_related_data_test.xml").String()),
+	)
+
+	fmt.Printf("aaaaaaa")
 	runTest := m.Run()
 	os.Exit(runTest)
 }
@@ -48,7 +56,8 @@ func TestHatenaRepository_getLatestEntryRelatedData(t *testing.T) {
 			want: &hatenaEntryRelatedData{
 				Entries: []hatenaEntry{
 					{
-						Title: "title-1",
+						Title:     "title-1",
+						Published: "2022-02-15T01:29:46+09:00",
 						Links: []link{
 							{
 								Rel:  "edit",
@@ -69,7 +78,8 @@ func TestHatenaRepository_getLatestEntryRelatedData(t *testing.T) {
 						},
 					},
 					{
-						Title: "title-2",
+						Title:     "title-2",
+						Published: "2022-02-15T01:29:46+09:00",
 						Links: []link{
 							{
 								Rel:  "edit",
@@ -90,7 +100,8 @@ func TestHatenaRepository_getLatestEntryRelatedData(t *testing.T) {
 						},
 					},
 					{
-						Title: "title-3",
+						Title:     "title-3",
+						Published: "2022-02-15T01:29:46+09:00",
 						Links: []link{
 							{
 								Rel:  "edit",
@@ -111,7 +122,8 @@ func TestHatenaRepository_getLatestEntryRelatedData(t *testing.T) {
 						},
 					},
 					{
-						Title: "title-4",
+						Title:     "title-4",
+						Published: "2022-02-15T01:29:46+09:00",
 						Links: []link{
 							{
 								Rel:  "edit",
@@ -155,7 +167,6 @@ func TestHatenaRepository_getLatestEntryRelatedData(t *testing.T) {
 				cmpopts.IgnoreFields(control{}, "Text"),
 			}
 			diff := cmp.Diff(got, tt.want, opt)
-			fmt.Println(got)
 			if diff != "" {
 				t.Errorf("HatenaRepository.getLatestEntryRelatedData()  %v", diff)
 			}
@@ -164,6 +175,10 @@ func TestHatenaRepository_getLatestEntryRelatedData(t *testing.T) {
 }
 
 func TestHatenaRepository_createEntryListFromEntryRelatedData(t *testing.T) {
+	time, err := time.Parse(time.RFC3339, "2022-02-15T01:29:46+09:00")
+	if err != nil {
+		t.Errorf("cannot parse time")
+	}
 	type args struct {
 		erd hatenaEntryRelatedData
 	}
@@ -178,7 +193,8 @@ func TestHatenaRepository_createEntryListFromEntryRelatedData(t *testing.T) {
 				erd: hatenaEntryRelatedData{
 					Entries: []hatenaEntry{
 						{
-							Title: "title-1",
+							Title:     "title-1",
+							Published: "2022-02-15T01:29:46+09:00",
 							Links: []link{
 								{
 									Rel:  "edit",
@@ -199,7 +215,8 @@ func TestHatenaRepository_createEntryListFromEntryRelatedData(t *testing.T) {
 							},
 						},
 						{
-							Title: "title-2",
+							Title:     "title-2",
+							Published: "2022-02-15T01:29:46+09:00",
 							Links: []link{
 								{
 									Rel:  "edit",
@@ -220,7 +237,8 @@ func TestHatenaRepository_createEntryListFromEntryRelatedData(t *testing.T) {
 							},
 						},
 						{
-							Title: "title-3",
+							Title:     "title-3",
+							Published: "2022-02-15T01:29:46+09:00",
 							Links: []link{
 								{
 									Rel:  "edit",
@@ -247,12 +265,14 @@ func TestHatenaRepository_createEntryListFromEntryRelatedData(t *testing.T) {
 				Source: "Hatena",
 				Entries: []model.Entry{
 					{
-						Title: "title-1",
-						URL:   "alternate-link-1",
+						Title:         "title-1",
+						URL:           "alternate-link-1",
+						LastUpdatedAt: &time,
 					},
 					{
-						Title: "title-3",
-						URL:   "alternate-link-3",
+						Title:         "title-3",
+						URL:           "alternate-link-3",
+						LastUpdatedAt: &time,
 					},
 				},
 			},

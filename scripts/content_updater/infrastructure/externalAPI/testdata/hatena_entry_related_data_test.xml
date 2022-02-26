@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"
+      xmlns:app="http://www.w3.org/2007/app">
+
+  <entry>
+    <link rel="edit" href="edit-link-1"/>
+    <link rel="alternate" type="text/html" href="alternate-link-1"/>
+    <title>title-1</title>
+    <published>2022-02-15T01:29:46+09:00</published>
+    <summary type="text">summary-1</summary>
+    <app:control>
+      <app:draft>no</app:draft>
+    </app:control>
+  </entry>
+
+  <entry>
+    <link rel="edit" href="edit-link-2"/>
+    <link rel="alternate" type="text/html" href="alternate-link-2"/>
+    <title>title-2</title>
+    <published>2022-02-15T01:29:46+09:00</published>
+    <summary type="text">summary-2</summary>
+    <app:control>
+      <app:draft>no</app:draft>
+    </app:control>
+  </entry>
+
+  <entry>
+    <link rel="edit" href="edit-link-3"/>
+    <link rel="alternate" type="text/html" href="alternate-link-3"/>
+    <title>title-3</title>
+    <published>2022-02-15T01:29:46+09:00</published>
+    <summary type="text">summary-3</summary>
+    <app:control>
+      <app:draft>yes</app:draft>
+    </app:control>
+  </entry>
+
+  <entry>
+    <link rel="edit" href="edit-link-4"/>
+    <link rel="alternate" type="text/html" href="alternate-link-4"/>
+    <title>title-4</title>
+    <published>2022-02-15T01:29:46+09:00</published>
+    <summary type="text">summary-4</summary>
+    <app:control>
+      <app:draft>no</app:draft>
+    </app:control>
+  </entry>
+
+</feed>

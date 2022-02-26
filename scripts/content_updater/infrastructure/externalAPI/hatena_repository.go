@@ -5,13 +5,16 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"time"
 
 	"content-updater/domain/model"
 	"content-updater/infrastructure/env_setter"
 )
 
 const (
-	relWithEntryLink = "alternate"
+	relWithEntryLink    = "alternate"
+	hatenaBaseUrlPrefix = "https://blog.hatena.ne.jp/"
+	hatenaBaseUrlSuffix = "/atom/entry"
 )
 
 var hatenaEnv = env_setter.HatenaEnv{}
@@ -108,7 +111,7 @@ func (a HatenaRepository) GetLatestEntryList() (*model.EntryList, error) {
 }
 
 func (a HatenaRepository) getLatestEntryRelatedData() (*hatenaEntryRelatedData, error) {
-	url := "https://blog.hatena.ne.jp/" + a.ID + "/" + a.BlogID + "/atom/entry"
+	url := hatenaBaseUrlPrefix + a.ID + "/" + a.BlogID + hatenaBaseUrlSuffix
 
 	client := &http.Client{
 		Timeout: 30000000000, //nano sec
@@ -152,10 +155,11 @@ func (a HatenaRepository) createEntryListFromEntryRelatedData(erd hatenaEntryRel
 		if linkToEntry == "" {
 			fmt.Printf("can't get link for `%#v`\n", entry.Title)
 		}
+		t, _ := time.Parse(time.RFC3339, entry.Published)
 		entryList.Entries = append(entryList.Entries, model.Entry{
-			Title: entry.Title,
-			URL:   linkToEntry,
-			//TODO:  LastUpdatedAtをとるようにする
+			Title:         entry.Title,
+			URL:           linkToEntry,
+			LastUpdatedAt: &t,
 		})
 	}
 	return entryList
