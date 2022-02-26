@@ -18,7 +18,7 @@ jobs:
       - name: 👾 Lint code
         run: |
           yarn install
-          yarn lint:html
+          yarn lint
 
   web-deploy:
     runs-on: ubuntu-latest
