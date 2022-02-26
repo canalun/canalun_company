@@ -1,6 +1,7 @@
-import hatenaEntryList from "@contents/entry_list/Hatena.json"
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
 import React, { useState } from "react";
+import { HatenaEntries } from './hatenaEntries';
+import { ZennEntries } from './zennEntries';
 
 const ErrorFallback: React.FC<FallbackProps> = ({ error, resetErrorBoundary }) => {
   return (
@@ -12,23 +13,11 @@ const ErrorFallback: React.FC<FallbackProps> = ({ error, resetErrorBoundary }) =
   )
 }
 
-export const JapaneseEntryList = () => {
-  const [hatenaListOn, setHatenaListState] = useState(true)
-  // const [zennListOn, setZennListState] = useState(true)
-
-  const hatenaListItem = hatenaEntryList.map((entry) =>
-    <li key={entry.lastUpdatedAt}>
-      <a href={entry.url}>{entry.title}</a>
-    </li>
-  )
-  // const zennListItem = zennEntryList.map((entry) =>
-  //   <li key={entry.lastUpdatedAt}>
-  //     <a href={entry.url}>{entry.title}</a>
-  //   </li>
-  // )
+export const JapaneseEntries: React.VFC = () => {
+  const [hatenaEntriesOn, setHatenaEntriesState] = useState(true)
+  const [zennEntriesOn, setZennEntriesState] = useState(true)
 
   return (
-
     <ul>
       <a href="https://canalundayo.hatenablog.com/"
         title="https://canalundayo.hatenablog.com/"><strong>やほほ村</strong></a>:
@@ -37,13 +26,11 @@ export const JapaneseEntryList = () => {
         FallbackComponent={ErrorFallback}
         onReset={() => {
           console.log('reset');
-          setHatenaListState(false)
+          setHatenaEntriesState(false)
         }}
       >
-        {hatenaListOn &&
-          <div>
-            <ul>{hatenaListItem}</ul>
-          </div>}
+        {hatenaEntriesOn &&
+          <HatenaEntries />}
       </ErrorBoundary>
       <br />
       <a href="https://zenn.dev/canalun" title="https://zenn.dev/canalun"><strong>Zenn</strong></a>:
@@ -52,16 +39,12 @@ export const JapaneseEntryList = () => {
         FallbackComponent={ErrorFallback}
         onReset={() => {
           console.log('reset');
-          setHatenaListState(false)
+          setZennEntriesState(false)
         }}
       >
-        <ul>工事中……</ul>
-        {/* {zennListOn &&
-          <div>
-            <ul>{zennListItem}</ul>
-          </div>} */}
+        {zennEntriesOn &&
+          <ZennEntries />}
       </ErrorBoundary>
     </ul>
-
   )
 }
