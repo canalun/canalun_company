@@ -3,6 +3,7 @@
     "@types/jest": "^27.4.1",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
+    "eslint": "^8.10.0",
     "htmlhint-ng2": "^0.0.13",
     "jest": "^27.5.1",
     "npm-watch": "^0.11.0",
@@ -19,7 +20,8 @@
     "start": "webpack -w --mode=development",
     "test": "jest",
     "test:w": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "lint": "eslint --fix --ext .jsx,.js,.tsx,.ts ."
   },
   "cspell": {
     "version": "0.2",
@@ -34,8 +36,15 @@
     "import": []
   },
   "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.1",
+    "@typescript-eslint/parser": "^5.12.1",
+    "eslint-plugin-react": "^7.29.2",
+    "glob-base": "^0.3.0",
+    "glob-parent": "5.1.2",
+    "jshint": "2.13.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-error-boundary": "^3.1.4"
+    "react-error-boundary": "^3.1.4",
+    "shelljs": "0.8.5"
   }
 }

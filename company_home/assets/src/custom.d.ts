@@ -3,14 +3,14 @@ declare module "*.png";
 declare module "*.jpeg";
 declare module "*.gif";
 
-declare module '@contents/entry_list/*.json' {
+declare module "@contents/entry_list/*.json" {
     interface Entry {
         title: string
         url: string
         lastUpdatedAt: string
     }
 
-    const data: Entry[];
+    const data: Entry[]
 
-    export default data;
+    export default data
 }
