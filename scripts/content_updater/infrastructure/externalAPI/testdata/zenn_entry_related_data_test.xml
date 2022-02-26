@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <rss>
+    <channel>
+      <item>
+        <title>title-1</title>
+        <link>link-1</link>
+        <pubDate>Thu, 17 Feb 2022 16:34:52 GMT</pubDate>
+      </item>
+      <item>
+        <title>title-2</title>
+        <link>link-2</link>
+        <pubDate>Thu, 17 Feb 2022 16:34:52 GMT</pubDate>
+      </item><item>
+        <title>title-3</title>
+        <link>link-3</link>
+        <pubDate>Thu, 17 Feb 2022 16:34:52 GMT</pubDate>
+      </item><item>
+        <title>title-4</title>
+        <link>link-4</link>
+        <pubDate>Thu, 17 Feb 2022 16:34:52 GMT</pubDate>
+      </item>
+    </channel>
+  </rss>
