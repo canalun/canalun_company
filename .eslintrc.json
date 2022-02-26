@@ -18,7 +18,8 @@
     },
     "plugins": [
         "@typescript-eslint",
-        "react"
+        "react",
+        "html"
     ],
     "ignorePatterns": [
         "app.js",
