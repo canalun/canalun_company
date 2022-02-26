@@ -14,11 +14,13 @@ const (
 func init() {
 	config.InitConfig(configFilePath)
 	externalAPI.InitHatenaEnv()
+	externalAPI.InitZennEnv()
 }
 
 func main() {
 	hatenaRepository := externalAPI.NewHatenaRepository()
-	entryUsecase := usecase.NewEntryUsecase(hatenaRepository)
+	zennRepository := externalAPI.NewZennRepository()
+	entryUsecase := usecase.NewEntryUsecase(hatenaRepository, zennRepository)
 	if err := entryUsecase.UpdateList(); err != nil {
 		fmt.Printf("%+v\n", err)
 	}
