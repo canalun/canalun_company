@@ -1,4 +1,4 @@
-import hatenaEntryList from "@contents/entry_list/Hatena.json"
+import hatenaEntryList from "@materials/entry_list/Hatena.json"
 import React from "react"
 
 export const HatenaEntries: React.VFC = () => {

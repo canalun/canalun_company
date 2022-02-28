@@ -17,7 +17,7 @@ func TestInitConfig(t *testing.T) {
 			configFilePath: "../config.yml",
 			want: Config{
 				NumOfEntry:          5,
-				EntryListFilePath:   "../../company_home/contents/entry_list/",
+				EntryListFilePath:   "../../company_home/materials/entry_list/",
 				EntryListFileFormat: ".json",
 			},
 		},

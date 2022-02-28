@@ -1,7 +1,7 @@
 すべて一旦コメントアウトを解除すれば、実験していたtsxコードに戻る。
 ErrorFallBackがfunctionだとなぜ動かなくて、VFCだとなぜ動くのか知りたい
 
-// import hatenaEntryList from "@contents/entry_list/Hatena.json"
+// import hatenaEntryList from "@materials/entry_list/Hatena.json"
 // import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
 // import React, { useState } from "react";
 

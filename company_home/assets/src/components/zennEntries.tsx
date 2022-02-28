@@ -1,4 +1,4 @@
-import zennEntryList from "@contents/entry_list/Zenn.json"
+import zennEntryList from "@materials/entry_list/Zenn.json"
 import React from "react"
 
 export const ZennEntries: React.VFC = () => {

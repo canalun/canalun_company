@@ -3,7 +3,7 @@ declare module "*.png";
 declare module "*.jpeg";
 declare module "*.gif";
 
-declare module "@contents/entry_list/*.json" {
+declare module "@materials/entry_list/*.json" {
     interface Entry {
         title: string
         url: string

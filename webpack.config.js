@@ -22,7 +22,7 @@ module.exports = {
 	resolve: {
 		extensions: [".ts", ".tsx", ".js"],
 		alias: {
-			"@contents": path.resolve(__dirname, "./company_home/contents"),
+			"@materials": path.resolve(__dirname, "./company_home/materials"),
 		},
 	},
 	devtool: "cheap-module-source-map",
