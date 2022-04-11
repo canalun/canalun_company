@@ -33,6 +33,7 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: ^1.17
+          check-latest: true
 
       - name: checkout src
         uses: actions/checkout@v2
@@ -41,7 +42,7 @@ jobs:
         uses: dominikh/staticcheck-action@v1.1.0
         with:
           version: "2021.1.1"
-          no-install: true
+          install-go: false
 
   test:
     runs-on: ubuntu-latest
