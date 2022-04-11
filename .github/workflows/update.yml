@@ -32,7 +32,7 @@ jobs:
       - name: set up golang
         uses: actions/setup-go@v2
         with:
-          go-version: ^1.18
+          go-version: ^1.17
           check-latest: true
 
       - name: checkout src
@@ -41,7 +41,6 @@ jobs:
       - name: lint src
         uses: dominikh/staticcheck-action@v1.1.0
         with:
-          version: "2021.1.1"
           install-go: false
 
   test:
