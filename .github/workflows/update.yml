@@ -80,6 +80,7 @@ jobs:
           HATENA_BLOG_ID: ${{ secrets.HATENA_BLOG_ID }}
           HATENA_USER_ID: ${{ secrets.HATENA_USER_ID }}
           HATENA_PASSWORD: ${{ secrets.HATENA_PASSSWORD }}
+          ZENN_USER_ID: ${{ secrets.ZENN_USER_ID }}
         run: |
           go mod download
           go run *.go
