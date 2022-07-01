@@ -7,6 +7,11 @@ on:
     paths:
       - "company_home/**"
       - ".github/workflows/deploy.yml"
+  workflow_run:
+    workflows: ["🔃 Update Contents"]
+    branches: [master]
+    types:
+      - completed
 
 jobs:
   lint:
