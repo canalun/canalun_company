@@ -11,4 +11,5 @@ update-mod:
 	cd ./scripts/content_updater && go mod tidy  && cd -
 
 local-dev:
-	cd ./company_home && python -m SimpleHTTPServer 8000 && cd -
+	cd ./company_home && python -m SimpleHTTPServer 8000 && cd - &
+	yarn build --watch
