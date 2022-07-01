@@ -24,7 +24,9 @@ func TestInitConfig(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			InitConfig(tt.configFilePath)
+			if err := InitConfig(tt.configFilePath); err != nil {
+				t.Error(err)
+			}
 		})
 		if diff := cmp.Diff(Conf, tt.want); diff != "" {
 			t.Errorf(diff)

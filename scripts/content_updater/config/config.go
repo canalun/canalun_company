@@ -14,7 +14,10 @@ type Config struct {
 
 var Conf Config
 
-func InitConfig(configFilePath string) {
+func InitConfig(configFilePath string) error {
 	b, _ := os.ReadFile(configFilePath)
-	yaml.Unmarshal(b, &Conf)
+	if err := yaml.Unmarshal(b, &Conf); err != nil {
+		return err
+	}
+	return nil
 }

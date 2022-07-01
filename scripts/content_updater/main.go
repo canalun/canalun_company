@@ -11,10 +11,17 @@ const (
 	configFilePath = "./config.yml"
 )
 
+//TODO: consider how to avoid using panic in init
 func init() {
-	config.InitConfig(configFilePath)
-	externalAPI.InitHatenaEnv()
-	externalAPI.InitZennEnv()
+	if err := config.InitConfig(configFilePath); err != nil {
+		panic(err)
+	}
+	if err := externalAPI.InitHatenaEnv(); err != nil {
+		panic(err)
+	}
+	if err := externalAPI.InitZennEnv(); err != nil {
+		panic(err)
+	}
 }
 
 func main() {

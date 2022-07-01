@@ -19,8 +19,13 @@ const (
 
 var hatenaEnv = env_setter.HatenaEnv{}
 
-func InitHatenaEnv() {
-	hatenaEnv = env_setter.GetHatenaEnvFromOSEnv()
+func InitHatenaEnv() error {
+	_hatenaEnv, err := env_setter.GetHatenaEnvFromOSEnv()
+	if err != nil {
+		return err
+	}
+	hatenaEnv = _hatenaEnv
+	return nil
 }
 
 type HatenaRepository struct {
@@ -134,7 +139,9 @@ func (a HatenaRepository) getLatestEntryRelatedData() (*hatenaEntryRelatedData, 
 	}
 
 	var hatenaEntryRelatedData hatenaEntryRelatedData
-	xml.Unmarshal(re, &hatenaEntryRelatedData)
+	if err := xml.Unmarshal(re, &hatenaEntryRelatedData); err != nil {
+		return nil, err
+	}
 	return &hatenaEntryRelatedData, nil
 }
 

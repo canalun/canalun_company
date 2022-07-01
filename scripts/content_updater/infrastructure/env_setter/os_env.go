@@ -11,18 +11,22 @@ type HatenaEnv struct {
 	Password string
 }
 
-func GetHatenaEnvFromOSEnv() HatenaEnv {
+func GetHatenaEnvFromOSEnv() (HatenaEnv, error) {
 	var hatenaEnv HatenaEnv
-	envconfig.Process("HATENA", &hatenaEnv)
-	return hatenaEnv
+	if err := envconfig.Process("HATENA", &hatenaEnv); err != nil {
+		return HatenaEnv{}, err
+	}
+	return hatenaEnv, nil
 }
 
 type ZennEnv struct {
 	User_id string
 }
 
-func GetZennEnvFromOSEnv() ZennEnv {
+func GetZennEnvFromOSEnv() (ZennEnv, error) {
 	var zennEnv ZennEnv
-	envconfig.Process("ZENN", &zennEnv)
-	return zennEnv
+	if err := envconfig.Process("ZENN", &zennEnv); err != nil {
+		return ZennEnv{}, err
+	}
+	return zennEnv, nil
 }

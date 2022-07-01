@@ -2,7 +2,6 @@ package externalAPI
 
 import (
 	"content-updater/domain/model"
-	"fmt"
 	"os"
 	"testing"
 	"time"
@@ -27,7 +26,6 @@ func TestMain(m *testing.M) {
 		httpmock.NewStringResponder(200, httpmock.File("./testdata/zenn_entry_related_data_test.xml").String()),
 	)
 
-	fmt.Printf("aaaaaaa")
 	runTest := m.Run()
 	os.Exit(runTest)
 }

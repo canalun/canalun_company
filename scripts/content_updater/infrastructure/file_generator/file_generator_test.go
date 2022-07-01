@@ -3,6 +3,7 @@ package file_generator
 import (
 	"content-updater/config"
 	"content-updater/domain/model"
+	"fmt"
 	"os"
 	"testing"
 	"time"
@@ -75,7 +76,9 @@ func TestUpdateEntryList(t *testing.T) {
 		if re := tt.assertFn(); re != "" {
 			t.Errorf("UpdateEntryList() fail: %v", re)
 		}
-		deleteContentFile()
+		if err := deleteContentFile(); err != nil {
+			fmt.Println("could not delete the generated file. please delete manually.")
+		}
 	}
 }
 

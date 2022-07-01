@@ -17,8 +17,13 @@ const (
 
 var zennEnv = env_setter.ZennEnv{}
 
-func InitZennEnv() {
-	zennEnv = env_setter.GetZennEnvFromOSEnv()
+func InitZennEnv() error {
+	_zennEnv, err := env_setter.GetZennEnvFromOSEnv()
+	if err != nil {
+		return err
+	}
+	zennEnv = _zennEnv
+	return nil
 }
 
 type ZennRepository struct {
@@ -114,7 +119,9 @@ func (a ZennRepository) getLatestEntryRelatedData() (*zennEntryRelatedData, erro
 	}
 
 	var zennEntryRelatedData zennEntryRelatedData
-	xml.Unmarshal(re, &zennEntryRelatedData)
+	if err := xml.Unmarshal(re, &zennEntryRelatedData); err != nil {
+		return nil, err
+	}
 	return &zennEntryRelatedData, nil
 }
 
