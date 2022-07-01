@@ -12,6 +12,7 @@ const (
 )
 
 //TODO: consider how to avoid using panic in init
+//test
 func init() {
 	if err := config.InitConfig(configFilePath); err != nil {
 		panic(err)
