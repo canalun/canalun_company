@@ -34,7 +34,7 @@ jobs:
       - name: 👷 build code
         run: |
           yarn install
-          yarn build --production
+          yarn build
 
   web-deploy:
     runs-on: ubuntu-latest
