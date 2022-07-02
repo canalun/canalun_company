@@ -22,7 +22,6 @@ const CeoImage = () => {
 				width={width}
 				height={height}
 			/>
-			<p>wanna see more? please reload...</p>
 		</>
 	)
 }
