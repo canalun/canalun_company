@@ -14,7 +14,7 @@ on:
       - completed
 
 jobs:
-  lint:
+  js-lint:
     runs-on: ubuntu-latest
     steps:
       - name: 🚚 Get latest code
@@ -25,7 +25,7 @@ jobs:
           yarn install
           yarn lint
 
-  build:
+  js-build:
     runs-on: ubuntu-latest
     steps:
       - name: 🚚 Get latest code
@@ -38,7 +38,7 @@ jobs:
 
   web-deploy:
     runs-on: ubuntu-latest
-    needs: build
+    needs: js-build
     steps:
       - name: 🚚 Get latest code
         uses: actions/checkout@v2
