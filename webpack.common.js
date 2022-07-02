@@ -1,12 +1,9 @@
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require("path")
-const assetsDir = path.resolve(__dirname, "./company_home/scripts")
 
 module.exports = {
-	entry: assetsDir + "/src/app.tsx",
-	output: {
-		path: assetsDir + "/dist",
-		filename: "app.js",
-	},
+	entry: "./company_home/scripts/src/app.tsx",
 	module: {
 		rules: [
 			{
