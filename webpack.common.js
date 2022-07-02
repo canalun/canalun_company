@@ -25,5 +25,4 @@ module.exports = {
 			"@materials": path.resolve(__dirname, "./company_home/materials"),
 		},
 	},
-	devtool: "cheap-module-source-map",
 }
