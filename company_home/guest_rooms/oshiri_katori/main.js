@@ -66,9 +66,10 @@ const GenerateMosquito = () => {
 	const noMosquitoMargin = window.innerWidth * 0.1
 	const fps = 60
 	const speed = 60 //px/second
-	const moveDelay = 0.2 //second
+	const moveDelay = 0.01 //second
 
 	const mosquito = document.createElement("img")
+	document.body.appendChild(mosquito)
 
 	mosquito.className = "enemy"
 	mosquito.src = imgSrc
@@ -79,12 +80,17 @@ const GenerateMosquito = () => {
 
 	// enemy appears from bottom.
 	// set no-enemy margin at right and left edge. => margin < mosquitoLeft < window.innerWidth - margin
-	let top = window.innerHeight
-	let left =
-		noMosquitoMargin +
-		(window.innerWidth - 2 * noMosquitoMargin) * Math.random()
+	Object.assign(mosquito.style, {
+		top: window.innerHeight + "px",
+		left:
+			noMosquitoMargin +
+			(window.innerWidth - 2 * noMosquitoMargin) * Math.random() +
+			"px"
+	})
 
 	const stopMoveCalc = setInterval(() => {
+		let top = mosquito.getBoundingClientRect().top
+		let left = mosquito.getBoundingClientRect().left
 		top -= speed / fps
 		Object.assign(mosquito.style, {
 			top: top + "px",
@@ -94,22 +100,11 @@ const GenerateMosquito = () => {
 
 	Object.assign(mosquito.style, {
 		position: "fixed",
-		transition:
-			"left " +
-			moveDelay +
-			"s ease-in-out 0s, top " +
-			moveDelay +
-			"s ease-in-out 0s",
+		transition: "left " + moveDelay + "s 0s, top " + moveDelay + "s 0s",
 		"-webkit-transition":
-			"left " +
-			moveDelay +
-			"s ease-in-out 0s, top " +
-			moveDelay +
-			"s ease-in-out 0s"
+			"left " + moveDelay + "s 0s, top " + moveDelay + "s 0s"
 	})
 
-	// render an enemy after setting position calculation in order to prevent appear it on the right upper corner in a flash.
-	document.body.appendChild(mosquito)
 	return stopMoveCalc
 }
 
