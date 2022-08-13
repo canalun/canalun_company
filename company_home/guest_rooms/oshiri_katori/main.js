@@ -328,7 +328,7 @@ const displayStartDialog = () => {
 
 const playMusic = () => {
 	const audio = document.createElement("audio")
-	audio.src = "https://maou.audio/sound/bgm/maou_bgm_8bit17.mp3"
+	audio.src = "../../materials/audio/oshiri-katori.mp3"
 	audio.id = "audio"
 	audio.autoplay = true
 	document.body.appendChild(audio)
