@@ -4,7 +4,7 @@
 /// init player oshiri ///
 //////////////////////////
 
-const initOshiri = () => {
+const initOshiri = (playSoundEffect) => {
 	const height = 70
 	const width = 70
 	const onaraTime = 600
@@ -21,8 +21,9 @@ const initOshiri = () => {
 		height: height + "px"
 	})
 
-	window.addEventListener("mousedown", function () {
+	window.addEventListener("mousedown", function (e) {
 		oshiri.src = onaraImgSrc
+		playSoundEffect()
 		setTimeout(() => {
 			oshiri.src = oshiriImgSrc
 		}, onaraTime)
@@ -143,7 +144,7 @@ const attackDetector = (player) => {
 	const attackXRange = 40
 	const attackYRange = 60
 
-	const attackDetectCalc = function () {
+	const attackDetectCalc = function (e) {
 		const enemyList = document.getElementsByClassName("enemy")
 		for (let i = 0; i < enemyList.length; i++) {
 			const ex = enemyList[i].getBoundingClientRect().left
@@ -326,13 +327,22 @@ const displayStartDialog = () => {
 /// music ///
 /////////////
 
-const playMusic = () => {
-	const audio = document.createElement("audio")
-	audio.src = "../../materials/audio/oshiri-katori.mp3"
-	audio.id = "audio"
-	audio.autoplay = true
-	document.body.appendChild(audio)
-	document.getElementById("audio").play()
+const playBackgroundMusic = () => {
+	const backgroundMusic = document.createElement("audio")
+	backgroundMusic.src = "../../materials/audio/oshiri-katori.mp3"
+	backgroundMusic.id = "backgroundMusic"
+	backgroundMusic.autoplay = true
+	document.body.appendChild(backgroundMusic)
+	document.getElementById("backgroundMusic").play()
+}
+
+const setOnaraSoundEffect = () => {
+	const onaraSoundEffect = document.createElement("audio")
+	onaraSoundEffect.src = "../../materials/audio/onara.mp3"
+	onaraSoundEffect.id = "onaraSoundEffect"
+	onaraSoundEffect.autoplay = true
+	document.body.appendChild(onaraSoundEffect)
+	return () => document.getElementById("onaraSoundEffect").play()
 }
 
 /////////////////////////////////////////////
@@ -340,10 +350,11 @@ const playMusic = () => {
 const gameStart = () => {
 	document.getElementById("dialog").remove()
 
-	playMusic()
+	playBackgroundMusic()
+	const playOnaraSoundEffect = setOnaraSoundEffect()
 
 	const safeZoneBorder = renderingStage()
-	const oshiri = initOshiri()
+	const oshiri = initOshiri(playOnaraSoundEffect)
 
 	const cancelAttackDetector = attackDetector(oshiri)
 
