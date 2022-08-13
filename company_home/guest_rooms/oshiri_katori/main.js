@@ -65,7 +65,7 @@ const GenerateMosquito = () => {
 	const height = 30
 	const noMosquitoMargin = window.innerWidth * 0.1
 	const fps = 60
-	const speed = 60 //px/second
+	const speed = 90 //px/second
 	const moveDelay = 0.01 //second
 
 	const mosquito = document.createElement("img")
