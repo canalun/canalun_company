@@ -355,6 +355,22 @@ const setBombSoundEffect = () => {
 	return () => document.getElementById("bombSoundEffect").play()
 }
 
+
+/////////////////////////////////////////////
+
+/////////////////////////////
+//// control user action ////
+/////////////////////////////
+
+// ban scrolling
+const banScroll = () => {
+	const prevent = function (e) {
+		e.preventDefault()
+	}
+	document.addEventListener("touchmove", prevent, { passive: false })
+	document.addEventListener("mousewheel", prevent, { passive: false })
+}
+
 /////////////////////////////////////////////
 
 const gameStart = () => {
@@ -382,6 +398,8 @@ const gameStart = () => {
 /////////////////////////////////////////////
 
 window.onload = () => {
+	banScroll()
+
 	getScoreFromCookie()
 	setScoreBoard()
 	displayStartDialog()
