@@ -235,11 +235,12 @@ const saveScore = () => {
 // gameover calculation //
 //////////////////////////
 
-const gameOverDetector = (safeZoneBorder, functionsToClean) => {
+const gameOverDetector = (safeZoneBorder, functionsToClean, playGameOverSoundEffect) => {
 	const stopGameOverDetector = setInterval(() => {
 		const enemyList = document.getElementsByClassName("enemy")
 		for (let i = 0; i < enemyList.length; i++) {
 			if (enemyList[i].getBoundingClientRect().top < safeZoneBorder) {
+				playGameOverSoundEffect()
 				for (let i = 0; i < functionsToClean.length; i++) {
 					functionsToClean[i]()
 				}
@@ -345,6 +346,15 @@ const setOnaraSoundEffect = () => {
 	return () => document.getElementById("onaraSoundEffect").play()
 }
 
+const setBombSoundEffect = () => {
+	const bombSoundEffect = document.createElement("audio")
+	bombSoundEffect.src = "../../materials/audio/bomb.mp3"
+	bombSoundEffect.id = "bombSoundEffect"
+	bombSoundEffect.autoplay = true
+	document.body.appendChild(bombSoundEffect)
+	return () => document.getElementById("bombSoundEffect").play()
+}
+
 /////////////////////////////////////////////
 
 const gameStart = () => {
@@ -352,6 +362,7 @@ const gameStart = () => {
 
 	playBackgroundMusic()
 	const playOnaraSoundEffect = setOnaraSoundEffect()
+	const playBombSoundEffect = setBombSoundEffect()
 
 	const safeZoneBorder = renderingStage()
 	const oshiri = initOshiri(playOnaraSoundEffect)
@@ -365,7 +376,7 @@ const gameStart = () => {
 	}, 500)
 	functionsToClean.push(() => clearInterval(stopGenerator))
 	functionsToClean.push(() => cancelAttackDetector())
-	gameOverDetector(safeZoneBorder, functionsToClean)
+	gameOverDetector(safeZoneBorder, functionsToClean, playBombSoundEffect)
 }
 
 /////////////////////////////////////////////
