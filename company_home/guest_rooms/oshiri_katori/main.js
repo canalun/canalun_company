@@ -21,7 +21,7 @@ const initOshiri = (playSoundEffect) => {
 		height: height + "px"
 	})
 
-	window.addEventListener("mousedown", function (e) {
+	window.addEventListener("mousedown", function () {
 		oshiri.src = onaraImgSrc
 		playSoundEffect()
 		setTimeout(() => {
@@ -144,7 +144,7 @@ const attackDetector = (player) => {
 	const attackXRange = 40
 	const attackYRange = 60
 
-	const attackDetectCalc = function (e) {
+	const attackDetectCalc = function () {
 		const enemyList = document.getElementsByClassName("enemy")
 		for (let i = 0; i < enemyList.length; i++) {
 			const ex = enemyList[i].getBoundingClientRect().left
