@@ -205,7 +205,6 @@ const scoreUpdate = () => {
 
 const getScoreFromCookie = () => {
 	const rawCookie = document.cookie
-	console.log(rawCookie)
 
 	if (rawCookie !== "") {
 		const cookies = rawCookie.split(";")
@@ -227,7 +226,6 @@ const saveScore = () => {
 	const _bestScore = Math.max(bestScore, currentScore)
 	document.cookie = "last_score=" + currentScore
 	document.cookie = "best_score=" + _bestScore
-	console.log(document.cookie)
 }
 
 /////////////////////////////////////////
@@ -258,17 +256,29 @@ const displayGameOverMessage = () => {
 
 	const gameOverMessage = document.createElement("div")
 	Object.assign(gameOverMessage.style, {
-		position: "fixed",
-		top: window.innerHeight / 2 - 50 + "px",
-		left: window.innerWidth / 2 - 160 + "px",
 		"text-align": "center",
 		padding: messagePadding + "px",
-		fontSize: "50px",
+		fontSize: "30px",
 		backgroundColor: "red",
 		color: "white"
 	})
 	gameOverMessage.innerText = "GAME OVER"
 	document.body.appendChild(gameOverMessage)
+	Object.assign(gameOverMessage.style, {
+		position: "absolute",
+		left: window.innerWidth / 2 - 130 + "px",
+		top: (window.innerHeight - gameOverMessage.clientHeight) / 2 + "px"
+	})
+
+	const retryButton = document.createElement("button")
+	Object.assign(retryButton.style, {
+		border: "2pt solid orange",
+		fontSize: "20px",
+		display: "block"
+	})
+	retryButton.innerText = "もういちどたたかう……！"
+	retryButton.onclick = () => window.location.reload()
+	gameOverMessage.appendChild(retryButton)
 }
 
 ///////////////////////////////////////////
