@@ -2,7 +2,7 @@ package externalAPI
 
 import (
 	"encoding/xml"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"time"
 
@@ -113,7 +113,7 @@ func (a ZennRepository) getLatestEntryRelatedData() (*zennEntryRelatedData, erro
 	}
 	defer resp.Body.Close()
 
-	re, err := ioutil.ReadAll(resp.Body)
+	re, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
