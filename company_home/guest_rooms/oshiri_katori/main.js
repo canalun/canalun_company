@@ -69,7 +69,6 @@ const GenerateMosquito = () => {
 	const moveDelay = 0.2 //second
 
 	const mosquito = document.createElement("img")
-	document.body.appendChild(mosquito)
 
 	mosquito.className = "enemy"
 	mosquito.src = imgSrc
@@ -109,6 +108,8 @@ const GenerateMosquito = () => {
 			"s ease-in-out 0s"
 	})
 
+	// render an enemy after setting position calculation in order to prevent appear it on the right upper corner in a flash.
+	document.body.appendChild(mosquito)
 	return stopMoveCalc
 }
 
