@@ -112,6 +112,65 @@ const generateMosquito = () => {
 	return stopMoveCalc
 }
 
+const generateBee = () => {
+	const beeThresholdScore = 30
+	if (currentScore < beeThresholdScore) {
+		return
+	}
+
+	const imgSrc =
+		"../../materials/images/oshiri_katori/bee.png"
+	const width = 30
+	const height = 30
+	const noBeeMargin = window.innerWidth * 0.1
+	const fps = 60
+	const moveDelay = 0.01 //second
+
+	const bee = document.createElement("img")
+	document.body.appendChild(bee)
+
+	bee.className = "enemy"
+	bee.src = imgSrc
+	Object.assign(bee.style, {
+		width: width + "px",
+		height: height + "px"
+	})
+
+	// enemy appears from bottom.
+	// set no-enemy margin at right and left edge. ==> margin < beeLeft < window.innerWidth - margin
+	Object.assign(bee.style, {
+		top: window.innerHeight + "px",
+		left:
+			noBeeMargin +
+			(window.innerWidth - 2 * noBeeMargin) * Math.random() +
+			"px"
+	})
+
+	const stopMoveCalc = setInterval(() => {
+		let top = bee.getBoundingClientRect().top
+		top -= speed * 1.2 / fps
+
+		let left = bee.getBoundingClientRect().left
+		const t = new Date().getTime() / 500
+		const radius = noBeeMargin * 0.1
+		left = left + (Math.sin(t) * radius)
+
+		Object.assign(bee.style, {
+			top: top + "px",
+			left: left + "px"
+		})
+	}, Math.trunc(1000 / fps))
+
+	Object.assign(bee.style, {
+		position: "fixed",
+		transition: "left " + moveDelay + "s 0s, top " + moveDelay + "s 0s",
+		"-webkit-transition":
+			"left " + moveDelay + "s 0s, top " + moveDelay + "s 0s"
+	})
+
+	return stopMoveCalc
+}
+
 ///////////////////////////////////
 
 ///////////////////////////
@@ -481,6 +540,12 @@ const gameStart = () => {
 	}, 500)
 	increaseSpeed()
 	functionsToClean.push(() => clearInterval(stopMosquitoGenerator))
+
+	const stopBeeGenerator = setInterval(() => {
+		const clearBeeMoveCalc = generateBee()
+		functionsToClean.push(() => clearInterval(clearBeeMoveCalc))
+	}, 1000)
+	functionsToClean.push(() => clearInterval(stopBeeGenerator))
 
 	const cancelAttackDetector = attackDetector(oshiri)
 	functionsToClean.push(() => cancelAttackDetector())
