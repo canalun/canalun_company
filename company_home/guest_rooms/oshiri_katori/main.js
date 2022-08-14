@@ -199,22 +199,65 @@ const renderingStage = () => {
 //// onara detection /////
 //////////////////////////
 
+// initial detection method is rectDetect
+let detect = rectDetect
+const xRange = 60
+const yRange = 80
+
 const onaraDetector = (target, player, callback) => {
-	const XRange = 60
-	const YRange = 80
 
 	const ex = target.getBoundingClientRect().left
 	const ey = target.getBoundingClientRect().top
 	const px = player.getBoundingClientRect().left
 	const py = player.getBoundingClientRect().top
 
-	if (
-		(px - XRange < ex &&
-			ex < px + XRange) &&
-		(py < ey &&
-			ey < py + YRange)
-	) {
+	if (detect(ex, ey, px, py, xRange, yRange)) {
 		callback()
+	}
+}
+
+// attack is determined by checking the rectangular area where the player exists in the center of the top side
+const rectDetect = (ex, ey, px, py, xRange, yRange) => {
+	if ((px - xRange < ex &&
+		ex < px + xRange) &&
+		(py < ey &&
+			ey < py + yRange)) {
+		return true
+	} else {
+		return false
+	}
+}
+
+// attack is determined by checking the downward sector area with the central angle of 120 degrees centered on the player, with the radius equal to xrange
+const circleDetect = (ex, ey, px, py, xRange, yRange) => {
+	const conditionalOne = () => {
+		if (ey <= (ex - px) / Math.sqrt(3.0) + py) {
+			return true
+		} else {
+			return false
+		}
+	}
+
+	const conditionalTwo = () => {
+		if (ey <= (ex - px) / -1 * Math.sqrt(3.0) + py) {
+			return true
+		} else {
+			return false
+		}
+	}
+
+	const conditionalThree = () => {
+		if ((ex - px) ** 2 + (ey - py) ** 2 <= xRange ** yRange) {
+			return true
+		} else {
+			return false
+		}
+	}
+
+	if (conditionalOne() && conditionalTwo() && conditionalThree()) {
+		return true
+	} else {
+		return false
 	}
 }
 
@@ -245,23 +288,23 @@ const attackDetector = (player) => {
 //// item  /////
 ////////////////
 
-const itemGetDetector = (player) => {
-	const itemGetDetectCalc = function () {
-		const itemList = document.getElementsByClassName("item")
-		for (let i = 0; i < itemList.length; i++) {
-			onaraDetector(itemList[i], player, () => {
-				causeItemEffect()
-				itemList[i].remove()
+const sprayGetDetector = (player) => {
+	const sprayGetDetectCalc = function () {
+		const sprayList = document.getElementsByClassName("spray")
+		for (let i = 0; i < sprayList.length; i++) {
+			onaraDetector(sprayList[i], player, () => {
+				causeSprayEffect()
+				sprayList[i].remove()
 			})
 		}
 	}
-	window.addEventListener("mousedown", itemGetDetectCalc)
-	return () => window.removeEventListener("mousedown", itemGetDetectCalc)
+	window.addEventListener("mousedown", sprayGetDetectCalc)
+	return () => window.removeEventListener("mousedown", sprayGetDetectCalc)
 }
 
-const generateItem = () => {
-	// only one item appears
-	if (document.getElementsByClassName("item").length > 0) {
+const generateSpray = () => {
+	// only one spray appears
+	if (document.getElementsByClassName("spray").length > 0) {
 		return
 	}
 
@@ -269,42 +312,42 @@ const generateItem = () => {
 		"../../materials/images/oshiri_katori/spray.png"
 	const width = 30
 	const height = 30
-	const noItemMargin = window.innerWidth * 0.1
-	const itemSpeed = 90
+	const noSprayMargin = window.innerWidth * 0.1
+	const spraySpeed = 90
 	const fps = 60
 	const moveDelay = 0.01 //second
 
-	const item = document.createElement("img")
-	document.body.appendChild(item)
+	const spray = document.createElement("img")
+	document.body.appendChild(spray)
 
-	item.className = "item"
-	item.src = imgSrc
-	Object.assign(item.style, {
+	spray.className = "spray"
+	spray.src = imgSrc
+	Object.assign(spray.style, {
 		width: width + "px",
 		height: height + "px"
 	})
 
 	// enemy appears from bottom.
-	// set no-enemy margin at right and left edge. => margin < itemLeft < window.innerWidth - margin
-	Object.assign(item.style, {
+	// set no-enemy margin at right and left edge. => margin < sprayLeft < window.innerWidth - margin
+	Object.assign(spray.style, {
 		top: window.innerHeight + "px",
 		left:
-			noItemMargin +
-			(window.innerWidth - 2 * noItemMargin) * Math.random() +
+			noSprayMargin +
+			(window.innerWidth - 2 * noSprayMargin) * Math.random() +
 			"px"
 	})
 
 	const stopMoveCalc = setInterval(() => {
-		let top = item.getBoundingClientRect().top
-		let left = item.getBoundingClientRect().left
-		top -= itemSpeed / fps
-		Object.assign(item.style, {
+		let top = spray.getBoundingClientRect().top
+		let left = spray.getBoundingClientRect().left
+		top -= spraySpeed / fps
+		Object.assign(spray.style, {
 			top: top + "px",
 			left: left + "px"
 		})
 	}, Math.trunc(1000 / fps))
 
-	Object.assign(item.style, {
+	Object.assign(spray.style, {
 		position: "fixed",
 		transition: "left " + moveDelay + "s 0s, top " + moveDelay + "s 0s",
 		"-webkit-transition":
@@ -314,10 +357,85 @@ const generateItem = () => {
 	return stopMoveCalc
 }
 
-const causeItemEffect = () => {
+const causeSprayEffect = () => {
 	speed = 5
 	setTimeout(() => { speed = 80 }, 3000)
 }
+
+const yakiimoGetDetector = (player) => {
+	const yakiimoGetDetectCalc = function () {
+		const yakiimoList = document.getElementsByClassName("yakiimo")
+		for (let i = 0; i < yakiimoList.length; i++) {
+			onaraDetector(yakiimoList[i], player, () => {
+				causeYakiimoEffect()
+				yakiimoList[i].remove()
+			})
+		}
+	}
+	window.addEventListener("mousedown", yakiimoGetDetectCalc)
+	return () => window.removeEventListener("mousedown", yakiimoGetDetectCalc)
+}
+
+const generateYakiimo = () => {
+	// only one yakiimo appears
+	if (document.getElementsByClassName("yakiimo").length > 0) {
+		return
+	}
+
+	const imgSrc =
+		"../../materials/images/oshiri_katori/yakiimo.png"
+	const width = 30
+	const height = 30
+	const noYakiimoMargin = window.innerWidth * 0.1
+	const yakiimoSpeed = 90
+	const fps = 60
+	const moveDelay = 0.01 //second
+
+	const yakiimo = document.createElement("img")
+	document.body.appendChild(yakiimo)
+
+	yakiimo.className = "yakiimo"
+	yakiimo.src = imgSrc
+	Object.assign(yakiimo.style, {
+		width: width + "px",
+		height: height + "px"
+	})
+
+	// enemy appears from bottom.
+	// set no-enemy margin at right and left edge. => margin < yakiimoLeft < window.innerWidth - margin
+	Object.assign(yakiimo.style, {
+		top: window.innerHeight + "px",
+		left:
+			noYakiimoMargin +
+			(window.innerWidth - 2 * noYakiimoMargin) * Math.random() +
+			"px"
+	})
+
+	const stopMoveCalc = setInterval(() => {
+		let top = yakiimo.getBoundingClientRect().top
+		let left = yakiimo.getBoundingClientRect().left
+		top -= yakiimoSpeed / fps
+		Object.assign(yakiimo.style, {
+			top: top + "px",
+			left: left + "px"
+		})
+	}, Math.trunc(1000 / fps))
+
+	Object.assign(yakiimo.style, {
+		position: "fixed",
+		transition: "left " + moveDelay + "s 0s, top " + moveDelay + "s 0s",
+		"-webkit-transition":
+			"left " + moveDelay + "s 0s, top " + moveDelay + "s 0s"
+	})
+
+	return stopMoveCalc
+}
+
+const causeYakiimoEffect = () => {
+	detect = circleDetect
+	setTimeout(() => { detect = rectDetect }, 5000)
+}
+
 
 /////////////////////////////////////////
 
@@ -461,7 +579,7 @@ const displayStartDialog = () => {
 		borderWidth: "2px",
 		fontSize: "14px",
 		diplay: "flex",
-		alignItems: "center",
+		alignSprays: "center",
 		justifyContent: "center",
 		padding: "2px"
 	})
@@ -550,14 +668,23 @@ const gameStart = () => {
 	const cancelAttackDetector = attackDetector(oshiri)
 	functionsToClean.push(() => cancelAttackDetector())
 
-	const stopItemGenerator = setInterval(() => {
-		const clearItemMoveCalc = generateItem()
-		functionsToClean.push(() => clearInterval(clearItemMoveCalc))
+	const stopSprayGenerator = setInterval(() => {
+		const clearSprayMoveCalc = generateSpray()
+		functionsToClean.push(() => clearInterval(clearSprayMoveCalc))
 	}, 8500)
-	functionsToClean.push(() => clearInterval(stopItemGenerator))
+	functionsToClean.push(() => clearInterval(stopSprayGenerator))
 
-	const cancelItemGetDetector = itemGetDetector(oshiri)
-	functionsToClean.push(() => cancelItemGetDetector())
+	const cancelSprayGetDetector = sprayGetDetector(oshiri)
+	functionsToClean.push(() => cancelSprayGetDetector())
+
+	const stopYakiimoGenerator = setInterval(() => {
+		const clearYakiimoMoveCalc = generateYakiimo()
+		functionsToClean.push(() => clearInterval(clearYakiimoMoveCalc))
+	}, 8500)
+	functionsToClean.push(() => clearInterval(stopYakiimoGenerator))
+
+	const cancelYakiimoGetDetector = sprayGetDetector(oshiri)
+	functionsToClean.push(() => cancelYakiimoGetDetector())
 
 	gameOverDetector(safeZoneBorder, functionsToClean, playBombSoundEffect)
 }
