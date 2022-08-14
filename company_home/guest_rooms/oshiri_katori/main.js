@@ -58,6 +58,11 @@ const initOshiri = (playSoundEffect) => {
 ///// enemy rendering ///
 /////////////////////////
 
+let speed = 90 // px/second
+const increaseSpeed = () => {
+	setInterval(() => { speed += 1 }, 300)
+}
+
 const GenerateMosquito = () => {
 	const imgSrc =
 		"../../materials/images/oshiri_katori/mosquito.png"
@@ -65,7 +70,6 @@ const GenerateMosquito = () => {
 	const height = 30
 	const noMosquitoMargin = window.innerWidth * 0.1
 	const fps = 60
-	const speed = 100 //px/second
 	const moveDelay = 0.01 //second
 
 	const mosquito = document.createElement("img")
@@ -386,6 +390,8 @@ const gameStart = () => {
 		const clearMosquitoMoveCalc = GenerateMosquito()
 		functionsToClean.push(() => clearInterval(clearMosquitoMoveCalc))
 	}, 500)
+	increaseSpeed()
+
 	functionsToClean.push(() => clearInterval(stopGenerator))
 	functionsToClean.push(() => cancelAttackDetector())
 	gameOverDetector(safeZoneBorder, functionsToClean, playBombSoundEffect)
