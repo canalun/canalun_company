@@ -9,8 +9,8 @@ const initOshiri = (playSoundEffect) => {
 	const width = 70
 	const onaraTime = 600
 	const trackDelay = 0.1 //second
-	const oshiriImgSrc = "https://nureyon.com/sample/34/buttocks-1-p0.svg"
-	const onaraImgSrc = "https://nureyon.com/sample/34/buttocks-1-p2.svg"
+	const oshiriImgSrc = "../../materials/images/oshiri_katori/oshiri.svg"
+	const onaraImgSrc = "../../materials/images/oshiri_katori/onara.svg"
 
 	const oshiri = document.createElement("img")
 	document.body.appendChild(oshiri)
@@ -60,7 +60,7 @@ const initOshiri = (playSoundEffect) => {
 
 const GenerateMosquito = () => {
 	const imgSrc =
-		"https://4.bp.blogspot.com/-7N6zGrdV09E/WBLNCp0SXBI/AAAAAAAA_Mg/_zgTCeSHvpQdphodHKiymXgzkW-6tdYzACLcB/s800/bug_ka.png"
+		"../../materials/images/oshiri_katori/mosquito.png"
 	const width = 30
 	const height = 30
 	const noMosquitoMargin = window.innerWidth * 0.1
