@@ -18,7 +18,7 @@ const initOshiri = (playSoundEffect) => {
 	oshiri.src = oshiriImgSrc
 	Object.assign(oshiri.style, {
 		width: width + "px",
-		height: height + "px"
+		height: height + "px",
 	})
 
 	window.addEventListener("mousedown", function () {
@@ -199,23 +199,6 @@ const renderingStage = () => {
 //// onara detection /////
 //////////////////////////
 
-// initial detection method is rectDetect
-let detect = rectDetect
-const xRange = 60
-const yRange = 80
-
-const onaraDetector = (target, player, callback) => {
-
-	const ex = target.getBoundingClientRect().left
-	const ey = target.getBoundingClientRect().top
-	const px = player.getBoundingClientRect().left
-	const py = player.getBoundingClientRect().top
-
-	if (detect(ex, ey, px, py, xRange, yRange)) {
-		callback()
-	}
-}
-
 // attack is determined by checking the rectangular area where the player exists in the center of the top side
 const rectDetect = (ex, ey, px, py, xRange, yRange) => {
 	if ((px - xRange < ex &&
@@ -231,7 +214,7 @@ const rectDetect = (ex, ey, px, py, xRange, yRange) => {
 // attack is determined by checking the downward sector area with the central angle of 120 degrees centered on the player, with the radius equal to xrange
 const circleDetect = (ex, ey, px, py, xRange, yRange) => {
 	const conditionalOne = () => {
-		if (ey <= (ex - px) / Math.sqrt(3.0) + py) {
+		if (ey >= (ex - px) / Math.sqrt(3.0) + py) {
 			return true
 		} else {
 			return false
@@ -239,7 +222,7 @@ const circleDetect = (ex, ey, px, py, xRange, yRange) => {
 	}
 
 	const conditionalTwo = () => {
-		if (ey <= (ex - px) / -1 * Math.sqrt(3.0) + py) {
+		if (ey >= -1 * (ex - px) / Math.sqrt(3.0) + py) {
 			return true
 		} else {
 			return false
@@ -247,7 +230,7 @@ const circleDetect = (ex, ey, px, py, xRange, yRange) => {
 	}
 
 	const conditionalThree = () => {
-		if ((ex - px) ** 2 + (ey - py) ** 2 <= xRange ** yRange) {
+		if ((ex - px) ** 2 + (ey - py) ** 2 <= xRange * yRange) {
 			return true
 		} else {
 			return false
@@ -258,6 +241,24 @@ const circleDetect = (ex, ey, px, py, xRange, yRange) => {
 		return true
 	} else {
 		return false
+	}
+}
+
+// initial detection method is rectDetect
+let detect = rectDetect
+const originalXrange = 60
+const originalYrange = 80
+let xRange = originalXrange
+let yRange = originalYrange
+
+const onaraDetector = (target, player, callback) => {
+	const ex = target.getBoundingClientRect().left
+	const ey = target.getBoundingClientRect().top
+	const px = player.getBoundingClientRect().left
+	const py = player.getBoundingClientRect().top
+
+	if (detect(ex, ey, px, py, xRange, yRange)) {
+		callback()
 	}
 }
 
@@ -358,8 +359,10 @@ const generateSpray = () => {
 }
 
 const causeSprayEffect = () => {
+	const currentSpeed = speed
 	speed = 5
-	setTimeout(() => { speed = 80 }, 3000)
+	// set speed as 95% of the one of before
+	setTimeout(() => { speed = currentSpeed * 0.95 }, 3000)
 }
 
 const yakiimoGetDetector = (player) => {
@@ -432,8 +435,54 @@ const generateYakiimo = () => {
 }
 
 const causeYakiimoEffect = () => {
+	xRange = originalYrange * 2.5
+	yRange = originalYrange * 2.5
 	detect = circleDetect
-	setTimeout(() => { detect = rectDetect }, 5000)
+
+	setTimeout(() => {
+		xRange = originalXrange
+		yRange = originalYrange
+		detect = rectDetect
+	}, 5000)
+
+	const height = 900
+	const width = 900
+	const trackDelay = 0.1 //second
+	const ougiImgSrc = "../../materials/images/oshiri_katori/ougi.svg"
+
+	const ougi = document.createElement("img")
+	document.body.appendChild(ougi)
+	setTimeout(() => { ougi.remove() }, 5000)
+
+	ougi.src = ougiImgSrc
+	Object.assign(ougi.style, {
+		// prevent flash
+		top: window.innerHeight + 10 + "px",
+		left: window.innerWidth + 10 + "px",
+		width: width + "px",
+		height: height + "px",
+		"z-index": "-1",
+	})
+
+	Object.assign(ougi.style, {
+		position: "fixed",
+		transition:
+			"left " +
+			trackDelay +
+			"s ease-in-out 0s, top " +
+			trackDelay +
+			"s ease-in-out 0s",
+		"-webkit-transition":
+			"left " +
+			trackDelay +
+			"s ease-in-out 0s, top " +
+			trackDelay +
+			"s ease-in-out 0s"
+	})
+	window.addEventListener("mousemove", function (e) {
+		ougi.style.left = e.clientX - width / 2 + "px"
+		ougi.style.top = e.clientY - height / 2 + "px"
+	})
 }
 
 
@@ -683,7 +732,7 @@ const gameStart = () => {
 	}, 8500)
 	functionsToClean.push(() => clearInterval(stopYakiimoGenerator))
 
-	const cancelYakiimoGetDetector = sprayGetDetector(oshiri)
+	const cancelYakiimoGetDetector = yakiimoGetDetector(oshiri)
 	functionsToClean.push(() => cancelYakiimoGetDetector())
 
 	gameOverDetector(safeZoneBorder, functionsToClean, playBombSoundEffect)
