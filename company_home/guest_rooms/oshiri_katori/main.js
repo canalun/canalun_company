@@ -19,6 +19,9 @@ const initOshiri = (playSoundEffect) => {
 	Object.assign(oshiri.style, {
 		width: width + "px",
 		height: height + "px",
+		"user-select": "none",
+		"-moz-user-select": "none",
+		"-webkit-user-select": "none"
 	})
 
 	window.addEventListener("mousedown", function () {
@@ -58,9 +61,9 @@ const initOshiri = (playSoundEffect) => {
 ///// enemy rendering ///
 /////////////////////////
 
-let speed = 90 // px/second
+let speed = 70 // px/second
 const increaseSpeed = () => {
-	setInterval(() => { speed += 1 }, 300)
+	setInterval(() => { speed += 1 }, 600)
 }
 
 const generateMosquito = () => {
@@ -79,7 +82,10 @@ const generateMosquito = () => {
 	mosquito.src = imgSrc
 	Object.assign(mosquito.style, {
 		width: width + "px",
-		height: height + "px"
+		height: height + "px",
+		"user-select": "none",
+		"-moz-user-select": "none",
+		"-webkit-user-select": "none"
 	})
 
 	// enemy appears from bottom.
@@ -113,7 +119,7 @@ const generateMosquito = () => {
 }
 
 const generateBee = () => {
-	const beeThresholdScore = 30
+	const beeThresholdScore = 10
 	if (currentScore < beeThresholdScore) {
 		return
 	}
@@ -133,7 +139,10 @@ const generateBee = () => {
 	bee.src = imgSrc
 	Object.assign(bee.style, {
 		width: width + "px",
-		height: height + "px"
+		height: height + "px",
+		"user-select": "none",
+		"-moz-user-select": "none",
+		"-webkit-user-select": "none"
 	})
 
 	// enemy appears from bottom.
@@ -186,7 +195,10 @@ const renderingStage = () => {
 		"line-height": "50px",
 		"text-align": "center",
 		padding: "4px",
-		color: "blue"
+		color: "blue",
+		"user-select": "none",
+		"-moz-user-select": "none",
+		"-webkit-user-select": "none"
 	})
 	oshiriKuni.innerText = "お し り の く に"
 	document.body.appendChild(oshiriKuni)
@@ -308,6 +320,10 @@ const generateSpray = () => {
 	if (document.getElementsByClassName("spray").length > 0) {
 		return
 	}
+	const sprayThresholdScore = 20
+	if (currentScore <= sprayThresholdScore) {
+		return
+	}
 
 	const imgSrc =
 		"../../materials/images/oshiri_katori/spray.png"
@@ -325,7 +341,10 @@ const generateSpray = () => {
 	spray.src = imgSrc
 	Object.assign(spray.style, {
 		width: width + "px",
-		height: height + "px"
+		height: height + "px",
+		"user-select": "none",
+		"-moz-user-select": "none",
+		"-webkit-user-select": "none"
 	})
 
 	// enemy appears from bottom.
@@ -384,6 +403,10 @@ const generateYakiimo = () => {
 	if (document.getElementsByClassName("yakiimo").length > 0) {
 		return
 	}
+	const yakiimoThresholdScore = 30
+	if (currentScore <= yakiimoThresholdScore) {
+		return
+	}
 
 	const imgSrc =
 		"../../materials/images/oshiri_katori/yakiimo.png"
@@ -401,7 +424,10 @@ const generateYakiimo = () => {
 	yakiimo.src = imgSrc
 	Object.assign(yakiimo.style, {
 		width: width + "px",
-		height: height + "px"
+		height: height + "px",
+		"user-select": "none",
+		"-moz-user-select": "none",
+		"-webkit-user-select": "none"
 	})
 
 	// enemy appears from bottom.
@@ -462,6 +488,9 @@ const causeYakiimoEffect = () => {
 		width: width + "px",
 		height: height + "px",
 		"z-index": "-1",
+		"user-select": "none",
+		"-moz-user-select": "none",
+		"-webkit-user-select": "none"
 	})
 
 	Object.assign(ougi.style, {
@@ -504,7 +533,10 @@ const setScoreBoard = () => {
 	Object.assign(scoreBoard.style, {
 		backgroundColor: "black",
 		color: "white",
-		fontSize: "20px"
+		fontSize: "20px",
+		"user-select": "none",
+		"-moz-user-select": "none",
+		"-webkit-user-select": "none"
 	})
 
 	scoreUpdate()
@@ -578,7 +610,10 @@ const displayGameOverMessage = () => {
 		padding: messagePadding + "px",
 		fontSize: "30px",
 		backgroundColor: "red",
-		color: "white"
+		color: "white",
+		"user-select": "none",
+		"-moz-user-select": "none",
+		"-webkit-user-select": "none"
 	})
 	gameOverMessage.innerText = "GAME OVER"
 	document.body.appendChild(gameOverMessage)
@@ -617,7 +652,10 @@ const displayStartDialog = () => {
 		position: "absolute",
 		"text-align": "center",
 		left: window.innerWidth / 2 - 100 + "px",
-		top: window.innerHeight / 2 - 80 + "px"
+		top: window.innerHeight / 2 - 80 + "px",
+		"user-select": "none",
+		"-moz-user-select": "none",
+		"-webkit-user-select": "none"
 	})
 	dialog.innerText =
 		"おしりのくにに、おそろしい「か」たちがやってきた！！\nおしりのくにをまもれ！\n\nクリック:「か」をやっつける\n\n"
@@ -630,7 +668,10 @@ const displayStartDialog = () => {
 		diplay: "flex",
 		alignSprays: "center",
 		justifyContent: "center",
-		padding: "2px"
+		padding: "2px",
+		"user-select": "none",
+		"-moz-user-select": "none",
+		"-webkit-user-select": "none"
 	})
 	startButton.innerText =
 		"たたかいをはじめる……！\nおとがなるよ！\n(おんがく:まおうだましい)"
@@ -720,7 +761,7 @@ const gameStart = () => {
 	const stopSprayGenerator = setInterval(() => {
 		const clearSprayMoveCalc = generateSpray()
 		functionsToClean.push(() => clearInterval(clearSprayMoveCalc))
-	}, 8500)
+	}, 5000)
 	functionsToClean.push(() => clearInterval(stopSprayGenerator))
 
 	const cancelSprayGetDetector = sprayGetDetector(oshiri)
@@ -729,7 +770,7 @@ const gameStart = () => {
 	const stopYakiimoGenerator = setInterval(() => {
 		const clearYakiimoMoveCalc = generateYakiimo()
 		functionsToClean.push(() => clearInterval(clearYakiimoMoveCalc))
-	}, 8500)
+	}, 10000)
 	functionsToClean.push(() => clearInterval(stopYakiimoGenerator))
 
 	const cancelYakiimoGetDetector = yakiimoGetDetector(oshiri)
