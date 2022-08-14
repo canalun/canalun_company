@@ -63,7 +63,7 @@ const increaseSpeed = () => {
 	setInterval(() => { speed += 1 }, 300)
 }
 
-const GenerateMosquito = () => {
+const generateMosquito = () => {
 	const imgSrc =
 		"../../materials/images/oshiri_katori/mosquito.png"
 	const width = 30
@@ -136,38 +136,128 @@ const renderingStage = () => {
 
 ///////////////////////////////////
 
+//////////////////////////
+//// onara detection /////
+//////////////////////////
+
+const onaraDetector = (target, player, callback) => {
+	const XRange = 60
+	const YRange = 80
+
+	const ex = target.getBoundingClientRect().left
+	const ey = target.getBoundingClientRect().top
+	const px = player.getBoundingClientRect().left
+	const py = player.getBoundingClientRect().top
+
+	if (
+		(px - XRange < ex &&
+			ex < px + XRange) &&
+		(py < ey &&
+			ey < py + YRange)
+	) {
+		callback()
+	}
+}
+
+///////////////////////////////////
+
 ///////////////////////////
 //// attack detection /////
 ///////////////////////////
 
 const attackDetector = (player) => {
-	const attackXRange = 40
-	const attackYRange = 60
-
 	const attackDetectCalc = function () {
 		const enemyList = document.getElementsByClassName("enemy")
 		for (let i = 0; i < enemyList.length; i++) {
-			const ex = enemyList[i].getBoundingClientRect().left
-			const ey = enemyList[i].getBoundingClientRect().top
-			const px = player.getBoundingClientRect().left
-			const py = player.getBoundingClientRect().top
-
-			if (
-				px - attackXRange < ex &&
-				ex < px + attackXRange &&
-				py < ey &&
-				ey < py + attackYRange
-			) {
+			onaraDetector(enemyList[i], player, () => {
 				currentScore++
 				scoreUpdate()
 				enemyList[i].remove()
-			}
+			})
 		}
 	}
-
 	window.addEventListener("mousedown", attackDetectCalc)
-
 	return () => window.removeEventListener("mousedown", attackDetectCalc)
+}
+
+/////////////////////////////////////////
+
+////////////////
+//// item  /////
+////////////////
+
+const itemGetDetector = (player) => {
+	const itemGetDetectCalc = function () {
+		const itemList = document.getElementsByClassName("item")
+		for (let i = 0; i < itemList.length; i++) {
+			onaraDetector(itemList[i], player, () => {
+				causeItemEffect()
+				itemList[i].remove()
+			})
+		}
+	}
+	window.addEventListener("mousedown", itemGetDetectCalc)
+	return () => window.removeEventListener("mousedown", itemGetDetectCalc)
+}
+
+const generateItem = () => {
+	// only one item appears
+	if (document.getElementsByClassName("item").length > 0) {
+		return
+	}
+
+	const imgSrc =
+		"../../materials/images/oshiri_katori/spray.png"
+	const width = 30
+	const height = 30
+	const noItemMargin = window.innerWidth * 0.1
+	const itemSpeed = 90
+	const fps = 60
+	const moveDelay = 0.01 //second
+
+	const item = document.createElement("img")
+	document.body.appendChild(item)
+
+	item.className = "item"
+	item.src = imgSrc
+	Object.assign(item.style, {
+		width: width + "px",
+		height: height + "px"
+	})
+
+	// enemy appears from bottom.
+	// set no-enemy margin at right and left edge. => margin < itemLeft < window.innerWidth - margin
+	Object.assign(item.style, {
+		top: window.innerHeight + "px",
+		left:
+			noItemMargin +
+			(window.innerWidth - 2 * noItemMargin) * Math.random() +
+			"px"
+	})
+
+	const stopMoveCalc = setInterval(() => {
+		let top = item.getBoundingClientRect().top
+		let left = item.getBoundingClientRect().left
+		top -= itemSpeed / fps
+		Object.assign(item.style, {
+			top: top + "px",
+			left: left + "px"
+		})
+	}, Math.trunc(1000 / fps))
+
+	Object.assign(item.style, {
+		position: "fixed",
+		transition: "left " + moveDelay + "s 0s, top " + moveDelay + "s 0s",
+		"-webkit-transition":
+			"left " + moveDelay + "s 0s, top " + moveDelay + "s 0s"
+	})
+
+	return stopMoveCalc
+}
+
+const causeItemEffect = () => {
+	speed = 5
+	setTimeout(() => { speed = 80 }, 3000)
 }
 
 /////////////////////////////////////////
@@ -383,17 +473,27 @@ const gameStart = () => {
 	const safeZoneBorder = renderingStage()
 	const oshiri = initOshiri(playOnaraSoundEffect)
 
-	const cancelAttackDetector = attackDetector(oshiri)
-
 	const functionsToClean = []
-	const stopGenerator = setInterval(() => {
-		const clearMosquitoMoveCalc = GenerateMosquito()
+
+	const stopMosquitoGenerator = setInterval(() => {
+		const clearMosquitoMoveCalc = generateMosquito()
 		functionsToClean.push(() => clearInterval(clearMosquitoMoveCalc))
 	}, 500)
 	increaseSpeed()
+	functionsToClean.push(() => clearInterval(stopMosquitoGenerator))
 
-	functionsToClean.push(() => clearInterval(stopGenerator))
+	const cancelAttackDetector = attackDetector(oshiri)
 	functionsToClean.push(() => cancelAttackDetector())
+
+	const stopItemGenerator = setInterval(() => {
+		const clearItemMoveCalc = generateItem()
+		functionsToClean.push(() => clearInterval(clearItemMoveCalc))
+	}, 8500)
+	functionsToClean.push(() => clearInterval(stopItemGenerator))
+
+	const cancelItemGetDetector = itemGetDetector(oshiri)
+	functionsToClean.push(() => cancelItemGetDetector())
+
 	gameOverDetector(safeZoneBorder, functionsToClean, playBombSoundEffect)
 }
 
